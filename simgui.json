@@ -1,0 +1,12 @@
+{
+  "NTProvider": {
+    "types": {
+      "/FMSInfo": "FMSInfo",
+      "/LiveWindow/Ungrouped/Spark[0]": "Motor Controller",
+      "/LiveWindow/Ungrouped/Victor SPX [1]": "Motor Controller",
+      "/LiveWindow/Ungrouped/Victor SPX [2]": "Motor Controller",
+      "/LiveWindow/Ungrouped/Victor SPX [3]": "Motor Controller",
+      "/LiveWindow/Ungrouped/Victor SPX [4]": "Motor Controller"
+    }
+  }
+}
