@@ -33,42 +33,24 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.button.Button;
 
 public class Robot extends TimedRobot {
-  
-  //Definitions for the hardware. Change this if you change what stuff you have plugged in
-// CANSparkMax driveLeftA = new CANSparkMax(1, MotorType.kBrushed);
-//CANSparkMax driveLeftB = new CANSparkMax(2, MotorType.kBrushed);
-// CANSparkMax driveRightA = new CANSparkMax(3, MotorType.kBrushed);
-//CANSparkMax driveRightB = new CANSparkMax(4, MotorType.kBrushed);
-//CANSparkMax arm = new CANSparkMax(5, MotorType.kBrushless);
- 
-WPI_VictorSPX driveLeftA = new WPI_VictorSPX(3);
-WPI_VictorSPX driveLeftB = new WPI_VictorSPX(4);
-WPI_VictorSPX driveRightA = new WPI_VictorSPX(1);
-WPI_VictorSPX driveRightB = new WPI_VictorSPX(2);
-Spark door = new Spark(0);
-  
 
-//CANSparkMax arm = new CANSparkMax(5, MotorType.kBrushless);
 
+  // ======== Hardware definitions ========
+  // Drive:
+  WPI_VictorSPX driveLeftA = new WPI_VictorSPX(3);
+  WPI_VictorSPX driveLeftB = new WPI_VictorSPX(4);
+  WPI_VictorSPX driveRightA = new WPI_VictorSPX(1);
+  WPI_VictorSPX driveRightB = new WPI_VictorSPX(2);
+
+  // Other:
   VictorSPX intake = new VictorSPX(7);
   VictorSPX arm = new VictorSPX(8);
-
+  Spark door = new Spark(0);
   Joystick driverController = new Joystick(0);
 
-  //Constants for controlling the arm. consider tuning these for your particular robot
-  final double armHoldUp = 0.08;
-  final double armHoldDown = 0.13;
-  final double armTravel = 0.5;
+  // ======== Constants ========
 
-  final double armTimeUp = 0.5;
-  final double armTimeDown = 0.35;
-
-  //Varibles needed for the code
-  
-  boolean armUp = true; //Arm initialized to up because that's how it would start a match
-  boolean burstMode = false;
-  double lastBurstTime = 0;
-
+  // ======== State Variables ========
   double autoStart = 0;
   boolean goForAuto = false;
 
@@ -80,71 +62,62 @@ Spark door = new Spark(0);
    */
   @Override
   public void robotInit() {
-    //Configure motors to turn correct direction. You may have to invert some of your motors
     driveLeftA.setInverted(false);
-    //((WPI_TalonSRX) driveLeftA).burnFlash();
     driveLeftB.setInverted(false);
-    //((WPI_TalonSRX) driveLeftB).burnFlash();
     driveRightA.setInverted(true);
-    //driveRightA.burnFlash();
     driveRightB.setInverted(true);
-    //driveRightB.burnFlash();
-    
-  //BaseMotorController arm = new WPI_TalonSRX(6);
-    arm.setInverted(false);
-    //arm.setIdleMode(IdleMode.kBrake);
-    //arm.burnFlash();
 
-    //add a thing on the dashboard to turn off auto if needed
+    arm.setInverted(false);
+
+    // Add a control on the dashboard to turn off auto if needed
     SmartDashboard.putBoolean("Go For Auto", false);
     goForAuto = SmartDashboard.getBoolean("Go For Auto", false);
   }
 
   @Override
   public void autonomousInit() {
-    //get a time for auton start to do events based on time later
+    // Get auto start time to time events
     autoStart = Timer.getFPGATimestamp();
-    //check dashboard icon to ensure good to do auto
+
+    // Check dashboard icon to ensure good to do auto
     goForAuto = SmartDashboard.getBoolean("Go For Auto", false);
   }
 
   /** This function is called periodically during autonomous. */
   @Override
   public void autonomousPeriodic() {
-    //get time since start of auto
+
+    if (!goForAuto) {
+      // Do run auto code if we're not supposed to
+      return;
+    }
+
+    // Get time since start of auto
     double autoTimeElapsed = Timer.getFPGATimestamp() - autoStart;
+
+    // Variables for motor control
+    // ONLY MODIFY THESE, DO NOT SET POWER DIRECTLY
     double driveLeftPower = 0;
     double driveRightPower = 0;
     double doorPower = 0;
 
-    if (autoTimeElapsed < 2) {
+
+    // ======== Autonomous Timed Events ========
+    if (autoTimeElapsed < 2) {  // Move forward for 2 seconds (from time = 0 to time = 2)
       driveLeftPower = 0.3;
       driveRightPower = 0.3;
-    } else if (autoTimeElapsed < 2.5) {
+    } else if (autoTimeElapsed < 2.5) {  // Spin for 0.5 seconds (from time = 2 to time = 2.5)
       driveRightPower = -0.5;
       driveLeftPower = 0.5;
     }
-    
-    //series of timed events making up the flow of auto
-    // if (autoTimeElapsed < 2) {
-    //   // Go forward at half speed (4 Seconds)
-    //   driveLeftPower = -0.25;
-    //   driveRightPower = -0.25;
-    // } else if (autoTimeElapsed < 5) {
-      
-    // } else if (autoTimeElapsed < 9) {
-    //   // Forward
-    //   driveRightPower = 0.25;
-    //   driveLeftPower = 0.25;
-    // } else {
 
-    // }
-
-    if (autoTimeElapsed < 9.9 && autoTimeElapsed >= 8.6) { // 10.5
+    if (autoTimeElapsed < 9.9 && autoTimeElapsed >= 8.6) {
       // Release ball
       doorPower = 0.8;
     }
 
+
+    // ======== Set Motor Power (DO NOT MODIFY) ========
     driveLeftA.set(driveLeftPower);
     driveLeftB.set(driveLeftPower);
     driveRightA.set(driveRightPower);
@@ -152,13 +125,13 @@ Spark door = new Spark(0);
     door.set(doorPower);
   }
 
-  /** This function is called once when teleop is enabled. */
   @Override
   public void teleopInit() {}
 
 
 
-  boolean goFast = false;  // 
+  // ======== Teleop Variables ========
+  boolean goFast = false;
   boolean balls = false;
   boolean isBalling = false;
   double pressCooldownTimeStamp = 0;
@@ -174,7 +147,7 @@ Spark door = new Spark(0);
     double driveLeftPower = 0;
     double driveRightPower = 0;
     double doorPower = 0;
-    
+
     if (isBalling) {
       // Do hatch stuff
       if (Timer.getFPGATimestamp() - pressCooldownTimeStamp > 1) {
@@ -192,15 +165,15 @@ Spark door = new Spark(0);
     // Control logic
     if (driverController.getRawButton(6)) {
       // Sprint
-      driveLeftPower = 0.9; 
+      driveLeftPower = 0.9;
       driveRightPower = 0.9;
     } else if (driverController.getRawButton(5)) {
       // Spin
       driveLeftPower = -1;
       driveRightPower = 1;
     } else if (
-      driverController.getRawButton(3) && 
-    Timer.getFPGATimestamp() - pressCooldownTimeStamp > 1 && 
+      driverController.getRawButton(3) &&
+    Timer.getFPGATimestamp() - pressCooldownTimeStamp > 1 &&
     !isBalling) {
       // Hatch toggle
       pressCooldownTimeStamp = Timer.getFPGATimestamp();
@@ -213,9 +186,9 @@ Spark door = new Spark(0);
       driveRightPower = (forward + turn) * 1;
     }
 
-    
-    
-    
+
+
+
 
     driveLeftA.set(driveLeftPower);
     driveLeftB.set(driveLeftPower);
@@ -236,7 +209,7 @@ Spark door = new Spark(0);
         door.set(0);
       }
     }
-    
+
 
     // Arm Controls
     if(driverController.getRawButton(3)){
@@ -248,33 +221,9 @@ Spark door = new Spark(0);
     else{
       arm.set(VictorSPXControlMode.PercentOutput, 0);
     }
-    // if(armUp){
-    //   if(Timer.getFPGATimestamp() - lastBurstTime < armTimeUp){
-    //     arm.set(VictorSPXControlMode.PercentOutput, .5);
-    //   }
-    //   else{
-    //     arm.set(armHoldUp);
-    //   }
-    // }
-    // else{
-    //   if(Timer.getFPGATimestamp() - lastBurstTime < armTimeDown){
-    //     arm.set(-armTravel);
-    //   }
-    //   else{
-    //     arm.set(-armHoldDown);
-    //   }
-    // }
-  
-    // if(driverController.getRawButtonPressed(6) && !armUp){
-    //   lastBurstTime = Timer.getFPGATimestamp();
-    //   armUp = true;
-    // }
-    // else if(driverController.getRawButtonPressed(8) && armUp){
-    //   lastBurstTime = Timer.getFPGATimestamp();
-    //   armUp = false;
-    // }  
+
   }
-  
+
   @Override
   public void disabledInit() {
     // On disable turn off everything
