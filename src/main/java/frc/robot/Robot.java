@@ -1,13 +1,4 @@
-/*
-  2022 everybot code
-  written by carson graf 
-  don't email me, @ me on discord
-*/
-
-/*
-  This is catastrophically poorly written code for the sake of being easy to follow
-  If you know what the word "refactor" means, you should refactor this code
-*/
+// TODO: Take all logic code out of here
 
 package frc.robot;
 
@@ -55,11 +46,6 @@ public class Robot extends TimedRobot {
   boolean goForAuto = false;
 
 
-
-  /**
-   * This function is run when the robot is first started up and should be used for any
-   * initialization code.
-   */
   @Override
   public void robotInit() {
     driveLeftA.setInverted(false);
@@ -83,7 +69,6 @@ public class Robot extends TimedRobot {
     goForAuto = SmartDashboard.getBoolean("Go For Auto", false);
   }
 
-  /** This function is called periodically during autonomous. */
   @Override
   public void autonomousPeriodic() {
 
@@ -136,7 +121,6 @@ public class Robot extends TimedRobot {
   boolean isBalling = false;
   double pressCooldownTimeStamp = 0;
 
-  /** Called periodically during manual control mode. */
   @Override
   public void teleopPeriodic() {
     // Get joystick inputs
