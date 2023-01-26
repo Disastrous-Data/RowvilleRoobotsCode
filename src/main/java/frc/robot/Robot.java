@@ -71,6 +71,14 @@ public class Robot extends TimedRobot {
     if (sb == 1) stop = true;
     if (usb == 1) stop = false;
 
+    if (m_leftStick.getRawButton(5)) {
+      // TODO: Make thing
+    }
+
+    if (m_leftStick.getRawButton(6)) {
+      // TODO: Make other thing
+    }
+
     if (stop) return;
     double fb = m_leftStick.getY() / 2;
     double lr = m_leftStick.getX() / 2;
