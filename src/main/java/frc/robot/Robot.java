@@ -1,212 +1,81 @@
-// TODO: Take all logic code out of here
+// Copyright (c) FIRST and other WPILib contributors.
+// Open Source Software; you can modify and/or share it under the terms of
+// the WPILib BSD license file in the root directory of this project.
+
+// 1&2 are right
+// 3&4 are left
 
 package frc.robot;
 
-import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.VictorSPXControlMode;
-import com.ctre.phoenix.motorcontrol.can.VictorSPX;
-import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.motorcontrol.Spark;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import edu.wpi.first.wpilibj.motorcontrol.MotorController;
+import edu.wpi.first.wpilibj.motorcontrol.PWMSparkMax;
 
+/**
+ * This is a demo program showing the use of the DifferentialDrive class, specifically it contains
+ * the code necessary to operate a robot with tank drive.
+ */
 public class Robot extends TimedRobot {
+  //private DifferentialDrive m_myRobot;
+  private Joystick m_leftStick;
+  //private Joystick m_rightStick;
 
+  private MotorController rm1;
+  private MotorController rm2;
 
-  // ======== Hardware definitions ========
-  // Drive:
-  WPI_VictorSPX driveLeftA = new WPI_VictorSPX(3);
-  WPI_VictorSPX driveLeftB = new WPI_VictorSPX(4);
-  WPI_VictorSPX driveRightA = new WPI_VictorSPX(1);
-  WPI_VictorSPX driveRightB = new WPI_VictorSPX(2);
+  private MotorController lm1;
+  private MotorController lm2;
 
-  // Other:
-  VictorSPX intake = new VictorSPX(7);
-  VictorSPX arm = new VictorSPX(8);
-  Spark door = new Spark(0);
-  Joystick driverController = new Joystick(0);
+  private boolean stop = false;
 
-  // ======== Constants ========
+  private void setLeft(double s) {
+    lm1.set(s);
+    lm2.set(s);
+  }
 
-  // ======== State Variables ========
-  double autoStart = 0;
-  boolean goForAuto = false;
-
+  private void setRight(double s) {
+    rm1.set(s);
+    rm2.set(s);
+  }
 
   @Override
   public void robotInit() {
-    driveLeftA.setInverted(false);
-    driveLeftB.setInverted(false);
-    driveRightA.setInverted(true);
-    driveRightB.setInverted(true);
+    // We need to invert one side of the drivetrain so that positive voltages
+    // result in both sides moving forward. Depending on how your robot's
+    // gearbox is constructed, you might have to invert the left side instead.
+  
+    rm1 = new CANSparkMax(1, MotorType.kBrushed);
+    rm2 = new CANSparkMax(2, MotorType.kBrushed);
+    lm1 = new CANSparkMax(3, MotorType.kBrushed);
+    lm2 = new CANSparkMax(4, MotorType.kBrushed);
+    m_leftStick = new Joystick(0);
 
-    arm.setInverted(false);
+    rm2.setInverted(true);
+    rm1.setInverted(true);
+    lm1.setInverted(false);
+    lm2.setInverted(false);
 
-    // Add a control on the dashboard to turn off auto if needed
-    SmartDashboard.putBoolean("Go For Auto", false);
-    goForAuto = SmartDashboard.getBoolean("Go For Auto", false);
+    //m_myRobot = new DifferentialDrive(m_leftMotor, m_rightMotor);
   }
-
-  @Override
-  public void autonomousInit() {
-    // Get auto start time to time events
-    autoStart = Timer.getFPGATimestamp();
-
-    // Check dashboard icon to ensure good to do auto
-    goForAuto = SmartDashboard.getBoolean("Go For Auto", false);
-  }
-
-  @Override
-  public void autonomousPeriodic() {
-
-    if (!goForAuto) {
-      // Do run auto code if we're not supposed to
-      return;
-    }
-
-    // Get time since start of auto
-    double autoTimeElapsed = Timer.getFPGATimestamp() - autoStart;
-
-    // Variables for motor control
-    // ONLY MODIFY THESE, DO NOT SET POWER DIRECTLY
-    double driveLeftPower = 0;
-    double driveRightPower = 0;
-    double doorPower = 0;
-
-
-    // ======== Autonomous Timed Events ========
-    if (autoTimeElapsed < 2) {  // Move forward for 2 seconds (from time = 0 to time = 2)
-      driveLeftPower = 0.3;
-      driveRightPower = 0.3;
-    } else if (autoTimeElapsed < 2.5) {  // Spin for 0.5 seconds (from time = 2 to time = 2.5)
-      driveRightPower = -0.5;
-      driveLeftPower = 0.5;
-    }
-
-    if (autoTimeElapsed < 9.9 && autoTimeElapsed >= 8.6) {
-      // Release ball
-      doorPower = 0.8;
-    }
-
-
-    // ======== Set Motor Power (DO NOT MODIFY) ========
-    driveLeftA.set(driveLeftPower);
-    driveLeftB.set(driveLeftPower);
-    driveRightA.set(driveRightPower);
-    driveRightB.set(driveRightPower);
-    door.set(doorPower);
-  }
-
-  @Override
-  public void teleopInit() {}
-
-
-
-  // ======== Teleop Variables ========
-  boolean goFast = false;
-  boolean balls = false;
-  boolean isBalling = false;
-  double pressCooldownTimeStamp = 0;
 
   @Override
   public void teleopPeriodic() {
-    // Get joystick inputs
-    double forward = -driverController.getRawAxis(1);
-    double turn = -driverController.getRawAxis(0);
 
-    // Declare Power Settings
-    double driveLeftPower = 0;
-    double driveRightPower = 0;
-    double doorPower = 0;
+    double sb = m_leftStick.getRawAxis(0);
+    double usb = m_leftStick.getRawAxis(1);
+    if (sb == 1) stop = true;
+    if (usb == 1) stop = false;
 
-    if (isBalling) {
-      // Do hatch stuff
-      if (Timer.getFPGATimestamp() - pressCooldownTimeStamp > 1) {
-        isBalling = false;
-      }
-      if (balls) {
-        // Hatch is down
-        doorPower = 0.8;
-      } else {
-        // Hatch is up
-        doorPower = -1;
-      }
-     }
-
-    // Control logic
-    if (driverController.getRawButton(6)) {
-      // Sprint
-      driveLeftPower = 0.9;
-      driveRightPower = 0.9;
-    } else if (driverController.getRawButton(5)) {
-      // Spin
-      driveLeftPower = -1;
-      driveRightPower = 1;
-    } else if (
-      driverController.getRawButton(3) &&
-    Timer.getFPGATimestamp() - pressCooldownTimeStamp > 1 &&
-    !isBalling) {
-      // Hatch toggle
-      pressCooldownTimeStamp = Timer.getFPGATimestamp();
-      isBalling = !isBalling;
-      balls = !balls;
-    }
-    else {
-      // Normal joystick movement
-      driveLeftPower = (forward - turn) * 1;
-      driveRightPower = (forward + turn) * 1;
-    }
-
-
-
-
-
-    driveLeftA.set(driveLeftPower);
-    driveLeftB.set(driveLeftPower);
-    driveRightA.set(driveRightPower);
-    driveRightB.set(driveRightPower);
-
-    door.set(doorPower);
-
-    //Door controls
-    if (!isBalling) {
-      if(driverController.getRawButton(1)){
-        door.set(1);
-      }
-      else if(driverController.getRawButton(2)){
-        door.set(-1);
-      }
-      else{
-        door.set(0);
-      }
-    }
-
-
-    // Arm Controls
-    if(driverController.getRawButton(3)){
-      arm.set(VictorSPXControlMode.PercentOutput, -1);;
-    }
-    else if(driverController.getRawButton(5)){
-      arm.set(VictorSPXControlMode.PercentOutput, 1);
-    }
-    else{
-      arm.set(VictorSPXControlMode.PercentOutput, 0);
-    }
-
+    if (stop) return;
+    double fb = m_leftStick.getY() / 2;
+    double lr = m_leftStick.getX() / 2;
+    setLeft(fb + lr);
+    setRight(fb + -lr);
   }
 
-  @Override
-  public void disabledInit() {
-    // On disable turn off everything
-    // Done to solve issue with motors "remembering" previous setpoints after reenable
-    driveLeftA.set(0);
-    driveLeftB.set(0);
-    driveRightA.set(0);
-    driveRightB.set(0);
-    // arm.set(0);
-    intake.set(ControlMode.PercentOutput, 0);
-  }
-    
 }
