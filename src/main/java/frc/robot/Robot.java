@@ -6,6 +6,9 @@ package frc.robot;
 import edu.wpi.first.wpilibj.TimedRobot;
 
 public class Robot extends TimedRobot {
+  public boolean TestValue1;
+  public String TestValue2;
+  public Integer TestValue3;
   private Hardware hardware = new Hardware();
   private TankDrive drive = new TankDrive();
   private Teleop teleop = new Teleop();
