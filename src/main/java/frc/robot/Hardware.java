@@ -3,7 +3,10 @@ package frc.robot;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
+import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.PneumaticsModuleType;
+import edu.wpi.first.wpilibj.PowerDistribution.ModuleType;
 import edu.wpi.first.wpilibj.motorcontrol.MotorController;
 import edu.wpi.first.wpilibj.motorcontrol.Talon;
 import com.ctre.phoenix.motorcontrol.ControlMode;
@@ -22,6 +25,8 @@ public class Hardware {
     public Joystick LeftJoystick;
     public Joystick Slider;
 
+    public Compressor AirCompressor;
+
     public void Init() {
         RightMotor1 = new CANSparkMax(1, MotorType.kBrushed);
         RightMotor2 = new CANSparkMax(2, MotorType.kBrushed);
@@ -36,6 +41,8 @@ public class Hardware {
         RightMotor1.setInverted(true);
         LeftMotor1.setInverted(false);
         LeftMotor2.setInverted(false);
+
+        AirCompressor = new Compressor(PneumaticsModuleType.REVPH);
     }
 
 }

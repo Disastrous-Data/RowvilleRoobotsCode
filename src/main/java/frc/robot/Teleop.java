@@ -1,5 +1,7 @@
 package frc.robot;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 public class Teleop {
 
     private boolean stop = false;
@@ -20,6 +22,7 @@ public class Teleop {
             hardware.Arm.set(-1);
         }
 
+        SmartDashboard.putBoolean("stopped", stop);
         if (stop) {
             drive.SetLeft(0);
             drive.SetRight(0);
