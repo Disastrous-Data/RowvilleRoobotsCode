@@ -6,6 +6,8 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.motorcontrol.MotorController;
 import edu.wpi.first.wpilibj.motorcontrol.Talon;
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 public class Hardware {
     
@@ -26,7 +28,7 @@ public class Hardware {
         LeftMotor1 = new CANSparkMax(3, MotorType.kBrushed);
         LeftMotor2 = new CANSparkMax(4, MotorType.kBrushed);
 
-        Arm = new Talon(0);
+        Arm = new WPI_TalonSRX(5);
         LeftJoystick = new Joystick(0);
         Slider = new Joystick(3);
 
