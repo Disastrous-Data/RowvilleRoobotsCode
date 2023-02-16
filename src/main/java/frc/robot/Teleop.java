@@ -15,11 +15,15 @@ public class Teleop {
         if (usb) stop = false;
 
         if (hardware.LeftJoystick.getRawButton(5)) {
-            hardware.Arm.set(1);
-        }
-
-        if (hardware.LeftJoystick.getRawButton(6)) {
-            hardware.Arm.set(-1);
+            hardware.Arm.set(0.4);
+            SmartDashboard.putNumber("arm", 0.1);
+        } 
+        else if (hardware.LeftJoystick.getRawButton(6)) {
+            hardware.Arm.set(-0.4);
+            SmartDashboard.putNumber("arm", -0.1);
+        } else{
+            hardware.Arm.set(0);
+            SmartDashboard.putNumber("arm", 0);
         }
 
         SmartDashboard.putBoolean("stopped", stop);

@@ -17,7 +17,7 @@ public class Hardware {
     public MotorController LeftMotor1;
     public MotorController LeftMotor2;
 
-    public MotorController Arm;
+    public WPI_TalonSRX Arm;
 
     public Joystick LeftJoystick;
     public Joystick Slider;
