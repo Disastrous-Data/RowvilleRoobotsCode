@@ -16,11 +16,11 @@ public class Teleop {
 
         if (hardware.LeftJoystick.getRawButton(5)) {
             hardware.Arm.set(0.4);
-            SmartDashboard.putNumber("arm", 0.1);
+            SmartDashboard.putNumber("arm", 0.4);
         } 
         else if (hardware.LeftJoystick.getRawButton(6)) {
             hardware.Arm.set(-0.4);
-            SmartDashboard.putNumber("arm", -0.1);
+            SmartDashboard.putNumber("arm", -0.4);
         } else{
             hardware.Arm.set(0);
             SmartDashboard.putNumber("arm", 0);
