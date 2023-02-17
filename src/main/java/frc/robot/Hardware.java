@@ -19,6 +19,9 @@ public class Hardware {
 
     public WPI_TalonSRX Arm;
 
+    public WPI_TalonSRX WinchLeft;
+    public WPI_TalonSRX WinchRight;
+
     public Joystick LeftJoystick;
     public Joystick Slider;
 
@@ -33,6 +36,11 @@ public class Hardware {
         Arm = new WPI_TalonSRX(5);
         LeftJoystick = new Joystick(0);
         Slider = new Joystick(3);
+
+        WinchRight = new WPI_TalonSRX(6);
+        WinchLeft = new WPI_TalonSRX(7);
+
+
 
         RightMotor2.setInverted(true);
         RightMotor1.setInverted(true);

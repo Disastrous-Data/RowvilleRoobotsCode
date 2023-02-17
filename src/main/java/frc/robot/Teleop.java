@@ -25,6 +25,21 @@ public class Teleop {
             hardware.Arm.set(0);
             SmartDashboard.putNumber("arm", 0);
         }
+        
+        //Winch code for pivot
+        if (hardware.LeftJoystick.getRawButton(3)) {
+            hardware.WinchLeft.set(0.4);
+            hardware.WinchRight.set(-0.4);
+        }else if (hardware.LeftJoystick.getRawButton(4)){
+            hardware.WinchLeft.set(-0.4);
+            hardware.WinchRight.set(0.4);
+        }
+        else{
+            hardware.WinchLeft.set(0);
+            hardware.WinchRight.set(0);
+        }
+
+
 
         SmartDashboard.putBoolean("stopped", stop);
         if (stop) {
