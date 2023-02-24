@@ -40,6 +40,13 @@ public class Teleop {
         } else if (drive.Controller.getRawButton(4)){
             states.WinchMotors = -0.4;
         }
+
+        //Code for ClawPiston 
+        if (drive.Controller.getRawButton(12)  &&  states.ClawPiston) {
+            states.ClawPiston = false;
+        } else if(drive.Controller.getRawButton(12)) {
+            states.ClawPiston = true;
+        }
         
         double fb = drive.Controller.getY() + axis1Offset / 2;
         double lr = drive.Controller.getX() + axis0Offset / 2;
