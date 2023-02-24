@@ -51,6 +51,9 @@ public class TankDrive {
 
         // Arm
         SetArmPower(states.ArmMotors);
+
+        //Claw Piston
+        SetClawPiston(states.ClawPiston);
     }
 
     public void SetLeftDrive(double s) {
@@ -75,6 +78,10 @@ public class TankDrive {
         for (MotorController c : ArmMotors) {
             c.set(s);
         }
+    }
+
+    public void SetClawPiston(boolean s) {
+        Pnumatics.SetState(s);
     }
 
     public void Stop() {

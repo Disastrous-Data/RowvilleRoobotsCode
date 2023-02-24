@@ -7,4 +7,6 @@ public class HardwareStates {
     public double WinchMotors = 0;
 
     public double ArmMotors = 0;
+
+    public boolean ClawPiston = false;
 }
