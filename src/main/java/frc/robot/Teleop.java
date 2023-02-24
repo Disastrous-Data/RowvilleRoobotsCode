@@ -8,9 +8,11 @@ public class Teleop {
     private double axis0Offset = -0.02;
     private double axis1Offset = 0;
 
+    
+    
     // Invoked periodically during teleop
     public void Invoke(TankDrive drive) {
-        HardwareStates states = new HardwareStates();
+        HardwareStates states = new HardwareStates();    
 
         boolean sb = drive.Controller.getRawButton(0);
         boolean usb = drive.Controller.getRawButton(1);
@@ -42,10 +44,12 @@ public class Teleop {
         }
 
         //Code for ClawPiston 
-        if (drive.Controller.getRawButton(12)  &&  states.ClawPiston) {
-            states.ClawPiston = false;
-        } else if(drive.Controller.getRawButton(12)) {
-            states.ClawPiston = true;
+        if (drive.Controller.getRawButton(12)) {
+            drive.SetClawPiston(false);
+        } 
+        
+        if(drive.Controller.getRawButton(11)) {
+            drive.SetClawPiston(true);
         }
         
         double fb = drive.Controller.getY() + axis1Offset / 2;
