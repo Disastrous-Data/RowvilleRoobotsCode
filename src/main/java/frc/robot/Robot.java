@@ -2,6 +2,7 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.cameraserver.CameraServer;
 
 public class Robot extends TimedRobot {
   private Hardware hardware = new Hardware();
@@ -16,6 +17,8 @@ public class Robot extends TimedRobot {
     hardware.Init();
     drive.Init(hardware);
     auto.Init();
+    //Starts camera server for usb camera plugged into RoboRIO, pushes to dashboard(s).
+    CameraServer.startAutomaticCapture();  
   }
 
   @Override
