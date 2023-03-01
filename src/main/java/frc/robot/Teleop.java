@@ -8,16 +8,19 @@ public class Teleop {
     private double axis0Offset = -0.02;
     private double axis1Offset = 0;
 
-    
+    private boolean clawState = false;  // True is in
+
+    // Cooldown
+    boolean handIsOnCooldown = false;
     
     // Invoked periodically during teleop
     public void Invoke(TankDrive drive) {
         HardwareStates states = new HardwareStates();    
 
-        boolean sb = drive.Controller.getRawButton(0);
-        boolean usb = drive.Controller.getRawButton(1);
-        if (sb) stop = true;
-        if (usb) stop = false;
+        // boolean sb = drive.Controller.getRawButton(1);  // TODO: DOES THIS WORK?????
+        // boolean usb = drive.Controller.getRawButton(2);
+        // if (sb) stop = true;
+        // if (usb) stop = false;
 
         SmartDashboard.putBoolean("stopped", stop);
         if (stop) {
@@ -29,28 +32,39 @@ public class Teleop {
         // | ALL CODE GOES AFTER THIS SO THAT STOP LOGIC WORKS |
         // |---------------------------------------------------|
 
-        if (drive.Controller.getRawButton(5)) {
-            states.ArmMotors = 0.4;
+        //
+        if (drive.Controller.getRawButton(4)) {
+            states.ArmMotors = 0.6;
         }
         else if (drive.Controller.getRawButton(6)) {
-            states.ArmMotors = -0.4;
+            states.ArmMotors = -0.6;
         }
         
-        // Winch code for pivot
-        if (drive.Controller.getRawButton(3)) {
-            states.WinchMotors = 0.4;
-        } else if (drive.Controller.getRawButton(4)){
-            states.WinchMotors = -0.4;
+        // Winch code for arm
+        if (drive.Controller.getRawButton(3) && drive.Hardware.ArmLimitSwitch.get()) {
+            states.WinchMotors = 1;
+        } else if (drive.Controller.getRawButton(5)){
+            states.WinchMotors = -1;
         }
 
         //Code for ClawPiston 
-        if (drive.Controller.getRawButton(12)) {
-            drive.SetClawPiston(false);
-        } 
-        
-        if(drive.Controller.getRawButton(11)) {
-            drive.SetClawPiston(true);
+        if (!drive.Controller.getRawButton(1)) {
+            handIsOnCooldown = false;
         }
+        if (drive.Controller.getRawButton(1) && !handIsOnCooldown) {  // Trigger
+            clawState = !clawState;
+            drive.SetClawPiston(clawState);
+            handIsOnCooldown = true;
+        }
+
+        if (drive.Controller.getRawButton(2)) {
+            clawState = !clawState;
+            drive.SetClawPiston(clawState);
+        }
+        
+        // if(drive.Controller.getRawButton(2)) {  // Side Button
+        //     drive.SetClawPiston(true);
+        // }
         
         double fb = drive.Controller.getY() + axis1Offset / 2;
         double lr = drive.Controller.getX() + axis0Offset / 2;

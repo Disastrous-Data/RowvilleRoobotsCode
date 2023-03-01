@@ -15,7 +15,7 @@ public class TankDrive {
     public LEDManager Leds;
     public Joystick Controller;
 
-    private Hardware Hardware;
+    public Hardware Hardware;
 
     // Hardware should be initialized before this is called. This is called in Hardware.java.
     public void Init(Hardware hardware) {
@@ -35,7 +35,7 @@ public class TankDrive {
         ArmMotors = new MotorController[] {
             hardware.Arm
         };
-        Pnumatics = new Pnumatics();
+        Pnumatics = new Pnumatics(hardware.Solenoid);
         Leds = new LEDManager(hardware);
         Controller = hardware.LeftJoystick;
     }

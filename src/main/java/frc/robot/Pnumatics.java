@@ -1,15 +1,17 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
-import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 
 public class Pnumatics {
 
-    DoubleSolenoid sol = new DoubleSolenoid(PneumaticsModuleType.REVPH, 0, 1);
+    DoubleSolenoid sol;
+
+    public Pnumatics(DoubleSolenoid solenoid) {
+        sol = solenoid;
+    }
 
     public void SetState(boolean state) {
-        
         if (state) {
             // Enable
             sol.set(Value.kForward);
@@ -17,7 +19,6 @@ public class Pnumatics {
             // Disable
             sol.set(Value.kReverse);
         }
-        //sol.close();
     }
 
 }

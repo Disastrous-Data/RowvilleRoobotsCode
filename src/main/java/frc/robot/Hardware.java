@@ -6,8 +6,11 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import edu.wpi.first.wpilibj.AddressableLED;
 import edu.wpi.first.wpilibj.AddressableLEDBuffer;
 import edu.wpi.first.wpilibj.Compressor;
+import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
+import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.motorcontrol.MotorController;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
@@ -31,6 +34,10 @@ public class Hardware {
 
     public AddressableLED m_led;
     public AddressableLEDBuffer m_ledBuffer;
+
+    public DoubleSolenoid Solenoid;
+
+    public DigitalInput ArmLimitSwitch;
 
     public void Init() {
         RightMotor1 = new CANSparkMax(1, MotorType.kBrushed);
@@ -60,6 +67,10 @@ public class Hardware {
         m_led.setLength(m_ledBuffer.getLength());
         m_led.setData(m_ledBuffer);
         m_led.start();
+
+        Solenoid = new DoubleSolenoid(PneumaticsModuleType.REVPH, 0, 1);
+
+        ArmLimitSwitch = new DigitalInput(9);
     }
 
     public void Reset() {

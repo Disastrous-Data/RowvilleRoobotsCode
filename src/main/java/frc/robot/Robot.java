@@ -20,9 +20,15 @@ public class Robot extends TimedRobot {
     hardware.Init();
     drive.Init(hardware);
     auto.Init();
-    //Starts camera server for usb camera plugged into RoboRIO, pushes to dashboard(s).
-    //CameraServer.startAutomaticCapture();  
+    // Starts camera server for usb camera plugged into RoboRIO, pushes to dashboard(s).
+    // CameraServer.startAutomaticCapture();  
     camera1 = CameraServer.startAutomaticCapture(0);
+    camera1.setFPS(60);
+  }
+
+  @Override
+  public void teleopInit() {
+    drive.SetClawPiston(false);
   }
 
   @Override
@@ -33,6 +39,7 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousInit() {
     autoStartTime = Timer.getFPGATimestamp();
+    drive.SetClawPiston(true);
   }
 
   @Override
