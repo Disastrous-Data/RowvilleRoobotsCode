@@ -8,10 +8,13 @@ public class Teleop {
     private double axis0Offset = -0.02;
     private double axis1Offset = 0;
 
+    //CLAW
     private boolean clawState = false;  // True is in
+    boolean handIsOnCooldown = false;  // Cooldown
 
-    // Cooldown
-    boolean handIsOnCooldown = false;
+    //LEDs 
+    private boolean LEDState = false;
+    private boolean ledisoncooldown = false;
     
     // Invoked periodically during teleop
     public void Invoke(TankDrive drive) {
@@ -65,6 +68,16 @@ public class Teleop {
         // if(drive.Controller.getRawButton(2)) {  // Side Button
         //     drive.SetClawPiston(true);
         // }
+
+        //Code for LED's 
+        if (!drive.Controller.getRawButton(12)) {
+            ledisoncooldown = false;
+        }
+        if (drive.Controller.getRawButton(12) && !ledisoncooldown) {  // Trigger
+            LEDState = !LEDState;
+            drive.SetClawPiston(LEDState);
+            ledisoncooldown = true;
+        }
         
         double fb = drive.Controller.getY() + axis1Offset / 2;
         double lr = drive.Controller.getX() + axis0Offset / 2;

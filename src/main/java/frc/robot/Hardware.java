@@ -62,7 +62,7 @@ public class Hardware {
         AirCompressor = new Compressor(PneumaticsModuleType.REVPH);
 
         //LED's
-        m_led = new AddressableLED(9);
+        m_led = new AddressableLED(0);
         m_ledBuffer = new AddressableLEDBuffer(60);  // 60 LEDs
         m_led.setLength(m_ledBuffer.getLength());
         m_led.setData(m_ledBuffer);
