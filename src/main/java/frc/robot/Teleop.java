@@ -45,11 +45,15 @@ public class Teleop {
         }
         
         // Winch code for arm
-        if (drive.Controller.getRawButton(3) && drive.Hardware.ArmLimitSwitch.get()) {
-            states.WinchMotors = 1;
-        } else if (drive.Controller.getRawButton(5)){
-            states.WinchMotors = -1;
+        if (drive.Controller.getRawButton(3) ) {
+            states.WinchMotors = 0.5;
+        } 
+        
+        if (drive.Controller.getRawButton(5)  && drive.Hardware.ArmLimitSwitch.get() ){
+            states.WinchMotors = -0.5;
         }
+
+        //SmartDashboard.putBoolean("ArmWinchLimitSwitch", drive.Hardware.ArmLimitSwitch.get());
 
         //Code for ClawPiston 
         if (!drive.Controller.getRawButton(1)) {
