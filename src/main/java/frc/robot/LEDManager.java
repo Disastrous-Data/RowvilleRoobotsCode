@@ -53,6 +53,8 @@ public class LEDManager {
           m_rainbowFirstPixelHue += 3;
           // Check bounds
           m_rainbowFirstPixelHue %= 180;
+
+          m_led.setData(m_ledBuffer);
     }
 }
 

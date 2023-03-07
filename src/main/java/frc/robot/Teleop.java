@@ -16,6 +16,7 @@ public class Teleop {
     private boolean LEDState = false;
     private boolean ledisoncooldown = false;
     private boolean RainbowCooldown = false;
+    private boolean LEDStateRainbow = false;
     
     // Invoked periodically during teleop
     public void Invoke(TankDrive drive) {
@@ -88,12 +89,11 @@ public class Teleop {
         if (!drive.Controller.getRawButton(11)) {
             RainbowCooldown = false;
         }
-        if (!drive.Controller.getRawButton(11) && !RainbowCooldown) {  // Trigger
-            drive.Leds.LEDRainbow();
+        if (drive.Controller.getRawButton(11) && !RainbowCooldown) {  // Trigger
+            LEDStateRainbow = !LEDStateRainbow;
             RainbowCooldown = true;
         }
-
-        if (RainbowCooldown) {
+        if (LEDStateRainbow) {
             drive.Leds.LEDRainbow();
         }
         
