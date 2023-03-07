@@ -1,10 +1,12 @@
 package frc.robot;
 
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.AddressableLED;
 import edu.wpi.first.wpilibj.AddressableLEDBuffer;
+import edu.wpi.first.wpilibj.CAN;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
@@ -16,11 +18,11 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 public class Hardware {
     
-    public MotorController RightMotor1;
-    public MotorController RightMotor2;
+    public CANSparkMax RightMotor1;
+    public CANSparkMax RightMotor2;
 
-    public MotorController LeftMotor1;
-    public MotorController LeftMotor2;
+    public CANSparkMax LeftMotor1;
+    public CANSparkMax LeftMotor2;
 
     public WPI_TalonSRX Arm;
 
@@ -58,6 +60,11 @@ public class Hardware {
         RightMotor1.setInverted(true);
         LeftMotor1.setInverted(false);
         LeftMotor2.setInverted(false);
+
+        RightMotor2.setIdleMode(IdleMode.kBrake);
+        RightMotor1.setIdleMode(IdleMode.kBrake);
+        LeftMotor1.setIdleMode(IdleMode.kBrake);
+        LeftMotor2.setIdleMode(IdleMode.kBrake);
 
         AirCompressor = new Compressor(PneumaticsModuleType.REVPH);
 
