@@ -38,10 +38,10 @@ public class Teleop {
 
         //
         if (drive.Controller.getRawButton(4)) {
-            states.ArmMotors = 0.6;
+            states.ArmMotors = -0.6;
         }
         else if (drive.Controller.getRawButton(6)) {
-            states.ArmMotors = -0.6;
+            states.ArmMotors = 0.6;
         }
         
         // Winch code for arm
