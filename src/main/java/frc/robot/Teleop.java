@@ -15,6 +15,7 @@ public class Teleop {
     //LEDs 
     private boolean LEDState = false;
     private boolean ledisoncooldown = false;
+    private boolean RainbowCooldown = false;
     
     // Invoked periodically during teleop
     public void Invoke(TankDrive drive) {
@@ -75,8 +76,21 @@ public class Teleop {
         }
         if (drive.Controller.getRawButton(12) && !ledisoncooldown) {  // Trigger
             LEDState = !LEDState;
-            drive.SetClawPiston(LEDState);
+            drive.Leds.setledmode(LEDState);
             ledisoncooldown = true;
+        }
+
+        //Rainbow LEDs
+        if (!drive.Controller.getRawButton(11)) {
+            RainbowCooldown = false;
+        }
+        if (!drive.Controller.getRawButton(11) && !RainbowCooldown) {  // Trigger
+            drive.Leds.LEDRainbow();
+            RainbowCooldown = true;
+        }
+
+        if (RainbowCooldown) {
+            drive.Leds.LEDRainbow();
         }
         
         double fb = drive.Controller.getY() + axis1Offset / 2;
