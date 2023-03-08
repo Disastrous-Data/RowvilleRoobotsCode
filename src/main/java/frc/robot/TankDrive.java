@@ -47,13 +47,13 @@ public class TankDrive {
         SetRightDrive(states.RightDriveMotors);
 
         // Winch
-        SetWinchPower(states.WinchMotors);
+        SetWinchPower(states.ArmUpDownMotors);
 
         // Arm
-        SetArmPower(states.ArmMotors);
+        SetArmPower(states.ArmInOutMotors);
 
         //Claw Piston
-        //SetClawPiston(states.ClawPiston);
+        SetClawPiston(states.ClawPiston);
     }
 
     public void SetLeftDrive(double s) {
@@ -80,6 +80,8 @@ public class TankDrive {
         }
     }
 
+    // Closed is True
+    // Open is False
     public void SetClawPiston(boolean s) {
         Pnumatics.SetState(s);
     }

@@ -1,11 +1,11 @@
 package frc.robot;
 
 public class TimedEvent {
-    public int StartTime;
-    public int EndTime;
+    public double StartTime;
+    public double EndTime;
     public Command Method;
 
-    public TimedEvent(int start, int end, Command func) {
+    public TimedEvent(double start, double end, Command func) {
         StartTime = start;
         EndTime = end;
         Method = func;

@@ -39,19 +39,19 @@ public class Teleop {
 
         //
         if (drive.Controller.getRawButton(4)) {
-            states.ArmMotors = -0.6;
+            states.ArmInOutMotors = -0.6;
         }
         else if (drive.Controller.getRawButton(6)) {
-            states.ArmMotors = 0.6;
+            states.ArmInOutMotors = 0.6;
         }
         
         // Winch code for arm
         if (drive.Controller.getRawButton(3) ) {
-            states.WinchMotors = 0.5;
+            states.ArmUpDownMotors = 0.5;
         } 
         
-        if (drive.Controller.getRawButton(5)  && drive.Hardware.ArmLimitSwitch.get() ){
-            states.WinchMotors = -0.5;
+        if (drive.Controller.getRawButton(5) && drive.Hardware.ArmLimitSwitch.get()){
+            states.ArmUpDownMotors = -0.5;
         }
 
         //SmartDashboard.putBoolean("ArmWinchLimitSwitch", drive.Hardware.ArmLimitSwitch.get());
