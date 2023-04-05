@@ -8,5 +8,5 @@ public class HardwareStates {
 
     public double ArmInOutMotors = 0;
 
-    public boolean ClawPiston = false;
+    // public boolean ClawPiston = false;
 }

@@ -53,7 +53,7 @@ public class TankDrive {
         SetArmPower(states.ArmInOutMotors);
 
         //Claw Piston
-        SetClawPiston(states.ClawPiston);
+        //SetClawPiston(states.ClawPiston);
     }
 
     public void SetLeftDrive(double s) {

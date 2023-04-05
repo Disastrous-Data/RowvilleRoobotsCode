@@ -49,8 +49,9 @@ public class Teleop {
         if (drive.Controller.getRawButton(3) ) {
             states.ArmUpDownMotors = 0.5;
         } 
-        
-        if (drive.Controller.getRawButton(5) && drive.Hardware.ArmLimitSwitch.get()){
+
+        // Arm Up (With limit switch and limit bypass)
+        if (drive.Controller.getRawButton(5) && (drive.Hardware.ArmLimitSwitch.get() || drive.Controller.getRawButton(10))){
             states.ArmUpDownMotors = -0.5;
         }
 
