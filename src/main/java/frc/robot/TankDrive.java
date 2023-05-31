@@ -12,7 +12,6 @@ public class TankDrive {
     private MotorController[] ArmMotors;
 
     public Pnumatics Pnumatics;
-    public LEDManager Leds;
     public Joystick Controller;
 
     public Hardware Hardware;
@@ -36,7 +35,6 @@ public class TankDrive {
             hardware.Arm
         };
         Pnumatics = new Pnumatics(hardware.Solenoid);
-        Leds = new LEDManager(hardware);
         Controller = hardware.LeftJoystick;
     }
 

@@ -75,28 +75,6 @@ public class Teleop {
         // if(drive.Controller.getRawButton(2)) {  // Side Button
         //     drive.SetClawPiston(true);
         // }
-
-        //Code for LED's 
-        if (!drive.Controller.getRawButton(12)) {
-            ledisoncooldown = false;
-        }
-        if (drive.Controller.getRawButton(12) && !ledisoncooldown) {  // Trigger
-            LEDState = !LEDState;
-            drive.Leds.setledmode(LEDState);
-            ledisoncooldown = true;
-        }
-
-        //Rainbow LEDs
-        if (!drive.Controller.getRawButton(11)) {
-            RainbowCooldown = false;
-        }
-        if (drive.Controller.getRawButton(11) && !RainbowCooldown) {  // Trigger
-            LEDStateRainbow = !LEDStateRainbow;
-            RainbowCooldown = true;
-        }
-        if (LEDStateRainbow) {
-            drive.Leds.LEDRainbow();
-        }
         
         double fb = drive.Controller.getY() + axis1Offset / 2;
         double lr = drive.Controller.getX() + axis0Offset / 2;

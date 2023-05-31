@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.motorcontrol.MotorController;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import com.kauailabs.navx.frc.AHRS;
 
 public class Hardware {
     
@@ -40,6 +41,8 @@ public class Hardware {
     public DoubleSolenoid Solenoid;
 
     public DigitalInput ArmLimitSwitch;
+
+    public AHRS NavX;
 
     public void Init() {
         RightMotor1 = new CANSparkMax(1, MotorType.kBrushed);
@@ -78,6 +81,8 @@ public class Hardware {
         Solenoid = new DoubleSolenoid(PneumaticsModuleType.REVPH, 0, 1);
 
         ArmLimitSwitch = new DigitalInput(9);
+
+        NavX = new AHRS();
     }
 
     public void Reset() {
