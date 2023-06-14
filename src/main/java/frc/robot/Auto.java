@@ -13,8 +13,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Auto {
 
-    private List<TimedEvent> events = new ArrayList<>();
-    private List<TimedEvent> oneOffEvents = new ArrayList<>();
+    private List<Command> tasks = new ArrayList<>();
 
     private boolean autoBalanceXMode;
     private boolean autoBalanceYMode;
@@ -24,42 +23,36 @@ public class Auto {
 
     // Add timed events using registerTimedEvent only in Init().
     public void Init() {
-        // Register timed events
-        // registerOneOffEvent(0, new Command() {
-        //     public HardwareStates Execute(TankDrive drive, HardwareStates states) {
-        //         drive.Leds.LEDRainbow();
-        //         return states;
-        //     }
-        // });
-        registerTimedEvent(0,1, new Command() {
-            public HardwareStates Execute(
+
+        registerTask(new Command() {
+            public AutoTaskResult Execute(
                 TankDrive drive, HardwareStates states) {
                 states.LeftDriveMotors = 0.6;
                 states.RightDriveMotors = 0.6;
-                return states;
+                return new AutoTaskResult(states, false);
             }
         });
 
-        registerTimedEvent(1,4, new Command() {
-            public HardwareStates Execute(
+        registerTask(new Command() {
+            public AutoTaskResult Execute(
                 TankDrive drive, HardwareStates states) {
                 states.LeftDriveMotors = 0.35;
                 states.RightDriveMotors = 0.35;
-                return states;
+                return new AutoTaskResult(states, false);
             }
         });
 
-        registerTimedEvent(4, 6.6, new Command() {
-            public HardwareStates Execute(TankDrive drive, HardwareStates states) {
+        registerTask(new Command() {
+            public AutoTaskResult Execute(TankDrive drive, HardwareStates states) {
                 states.LeftDriveMotors = -0.3;
                 states.RightDriveMotors = -0.3;
-                return states;
+                return new AutoTaskResult(states, false);
             }
         });
 
         // Balance
-        registerTimedEvent(6.6, 15, new Command() {
-            public HardwareStates Execute(TankDrive drive, HardwareStates states) {
+        registerTask(new Command() {
+            public AutoTaskResult Execute(TankDrive drive, HardwareStates states) {
                 double xAxisRate = 0;
                 double yAxisRate = 0;
 
@@ -106,6 +99,7 @@ public class Auto {
                     SmartDashboard.putNumber("xAxisRate", xAxisRate);
                     SmartDashboard.putNumber("rightAxisRate", rightAxisRate);
                     SmartDashboard.putNumber("leftAxisRate", leftAxisRate);
+                    SmartDashboard.putBoolean("isBalanced", leftAxisRate == 0 && rightAxisRate == 0);
                     leftSpeeds.add(leftAxisRate);
                     SmartDashboard.putNumberArray("leftAxisRate", leftSpeeds.stream().mapToDouble(o -> ((Number) o).doubleValue()).toArray());
                     states.LeftDriveMotors = (leftAxisRate*0.85);
@@ -113,7 +107,7 @@ public class Auto {
                 } catch (RuntimeException ex) {
                     // IDK MAN
                 }
-                return states;
+                return new AutoTaskResult(states, false);
             }
         });
 
@@ -126,99 +120,25 @@ public class Auto {
     static final double kOonBalanceAngleThresholdDegrees = 0;
 
     public void Invoke(AutoState state) {
-
-        // double xAxisRate = 0;
-        // double yAxisRate = 0;
-
-        // double pitchAngleDegrees = state.drive.Hardware.NavX.getPitch();
-        // double rollAngleDegrees = state.drive.Hardware.NavX.getRoll();
-
-        // SmartDashboard.putNumber("roll", rollAngleDegrees);
-        // SmartDashboard.putNumber("pitch", pitchAngleDegrees);
-
-        // if (!autoBalanceXMode && (Math.abs(pitchAngleDegrees) >= Math.abs(kOffBalanceAngleThresholdDegrees))) {
-        //     autoBalanceXMode = true;
-        // } else if (autoBalanceXMode && (Math.abs(pitchAngleDegrees) <= Math.abs(kOonBalanceAngleThresholdDegrees))) {
-        //     autoBalanceXMode = false;
-        // }
-        // if (!autoBalanceYMode && (Math.abs(pitchAngleDegrees) >= Math.abs(kOffBalanceAngleThresholdDegrees))) {
-        //     autoBalanceYMode = true;
-        // } else if (autoBalanceYMode && (Math.abs(pitchAngleDegrees) <= Math.abs(kOonBalanceAngleThresholdDegrees))) {
-        //     autoBalanceYMode = false;
-        // }
-
-        // // Control drive system automatically,
-        // // driving in reverse direction of pitch/roll angle,
-        // // with a magnitude based upon the angle
-
-        // if (autoBalanceXMode) {
-        //     double pitchAngleRadians = pitchAngleDegrees * (Math.PI / 180.0);
-        //     xAxisRate = Math.sin(pitchAngleRadians) * -1;
-        // }
-        // if (autoBalanceYMode) {
-        //     double rollAngleRadians = rollAngleDegrees * (Math.PI / 180.0);
-        //     yAxisRate = Math.sin(rollAngleRadians) * -1;
-        // }
-
-        // try {
-        //     //myRobot.driveCartesian(xAxisRate, yAxisRate, stick.getTwist(), 0);
-        //     HardwareStates states = new HardwareStates();
-        //     double leftAxisRate = yAxisRate + xAxisRate;
-        //     double rightAxisRate = yAxisRate - xAxisRate;
-        //     SmartDashboard.putNumber("yAxisRate", yAxisRate);
-        //     SmartDashboard.putNumber("xAxisRate", xAxisRate);
-        //     SmartDashboard.putNumber("rightAxisRate", rightAxisRate);
-        //     SmartDashboard.putNumber("leftAxisRate", leftAxisRate);
-        //     states.LeftDriveMotors = (leftAxisRate);
-        //     states.RightDriveMotors = (leftAxisRate);
-        //     state.drive.Update(states);
-        // } catch (RuntimeException ex) {
-        //     // IDK MAN
-        // }
-        // return;
-
         SmartDashboard.putNumber("AutoTimer", state.timeElapsed);
-        boolean didDoSomething = false;
-        for (TimedEvent event : events) {
-            if (state.timeElapsed >= event.StartTime && state.timeElapsed <= event.EndTime) {
-                HardwareStates states = event.Method.Execute(state.drive, new HardwareStates());
-                
-                // ARM LIMIT SWITCH
-                if (state.drive.Hardware.ArmLimitSwitch.get() && states.ArmUpDownMotors < 0) {
-                    states.ArmUpDownMotors = 0;
-                }
 
-                state.drive.Update(states);
-                didDoSomething = true;
-            }
-        }
-        for (TimedEvent oneOffEvent : oneOffEvents) {
-            if (oneOffEvent.StartTime <= state.timeElapsed) {
-                HardwareStates states = oneOffEvent.Method.Execute(state.drive, new HardwareStates());
-                
-                // ARM LIMIT SWITCH
-                if (state.drive.Hardware.ArmLimitSwitch.get() && states.ArmUpDownMotors < 0) {
-                    states.ArmUpDownMotors = 0;
-                }
+        Command event = tasks.get(0);
+        AutoTaskResult states = event.Execute(state.drive, new HardwareStates());
 
-                state.drive.Update(states);
-                oneOffEvents.remove(oneOffEvent);
-                didDoSomething = true;
-            }
+        // ARM LIMIT SWITCH
+        if (state.drive.Hardware.ArmLimitSwitch.get() && states.States.ArmUpDownMotors < 0) {
+            states.States.ArmUpDownMotors = 0;
         }
-        if (!didDoSomething) {
-            state.drive.Update(new HardwareStates());
+
+        state.drive.Update(states.States);
+
+        if (states.IsFinished) {
+            tasks.remove(0);
         }
     }
 
-    private void registerTimedEvent(double start, double end, Command func) {
-        TimedEvent newEvent = new TimedEvent(start, end, func);
-        events.add(newEvent);
-    }
-
-    private void registerOneOffEvent(double trigger, Command func) {
-        TimedEvent newEvent = new TimedEvent(trigger, trigger, func);
-        oneOffEvents.add(newEvent);
+    private void registerTask(Command func) {
+        tasks.add(func);
     }
 
 }

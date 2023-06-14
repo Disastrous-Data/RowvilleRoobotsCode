@@ -1,5 +1,5 @@
 package frc.robot;
 
 public interface Command {
-    public HardwareStates Execute(TankDrive drive, HardwareStates states);
+    public AutoTaskResult Execute(TankDrive drive, HardwareStates states);
 }
