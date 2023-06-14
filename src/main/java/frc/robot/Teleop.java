@@ -17,6 +17,8 @@ public class Teleop {
     private boolean ledisoncooldown = false;
     private boolean RainbowCooldown = false;
     private boolean LEDStateRainbow = false;
+
+    static final double stallThreshHold = 0.5;
     
     // Invoked periodically during teleop
     public void Invoke(TankDrive drive) {
@@ -81,6 +83,8 @@ public class Teleop {
         states.LeftDriveMotors = fb + -lr;
         states.RightDriveMotors = fb + lr;
         drive.Update(states);
+        SmartDashboard.putNumber("outputCurrent", drive.Hardware.LeftMotor2.getOutputCurrent());
+        SmartDashboard.putBoolean("isStalled", drive.Hardware.LeftMotor2.getOutputCurrent() > stallThreshHold);
     }
 
 }

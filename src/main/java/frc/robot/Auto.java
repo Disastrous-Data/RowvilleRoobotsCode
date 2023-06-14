@@ -26,10 +26,11 @@ public class Auto {
 
         // Get on front of balance board
         registerTask((drive, states) -> {
-            states.LeftDriveMotors = 0.35;
-            states.RightDriveMotors = 0.35;
+            states.LeftDriveMotors = 0.4;
+            states.RightDriveMotors = 0.4;
 
-            boolean didUnbalance = drive.Hardware.NavX.getPitch() > 10;
+            double pitchAngleDegrees = drive.Hardware.NavX.getPitch();
+            boolean didUnbalance = pitchAngleDegrees > 3;
             return new AutoTaskResult(states, didUnbalance);
         });
 
@@ -38,7 +39,8 @@ public class Auto {
             states.LeftDriveMotors = 0.35;
             states.RightDriveMotors = 0.35;
 
-            boolean didBalance = !(drive.Hardware.NavX.getPitch() > 10);
+            double pitchAngleDegrees = drive.Hardware.NavX.getPitch();
+            boolean didBalance = !(pitchAngleDegrees > 3);
             return new AutoTaskResult(states, didBalance);
         });
 
@@ -47,7 +49,8 @@ public class Auto {
             states.LeftDriveMotors = -0.3;
             states.RightDriveMotors = -0.3;
 
-            boolean didUnbalance = drive.Hardware.NavX.getPitch() > 10;
+            double pitchAngleDegrees = drive.Hardware.NavX.getPitch();
+            boolean didUnbalance = pitchAngleDegrees > 3;
             return new AutoTaskResult(states, didUnbalance);
         });
 
@@ -96,10 +99,6 @@ public class Auto {
                 //myRobot.driveCartesian(xAxisRate, yAxisRate, stick.getTwist(), 0);
                 double leftAxisRate = yAxisRate + xAxisRate;
                 double rightAxisRate = yAxisRate - xAxisRate;
-                SmartDashboard.putNumber("yAxisRate", yAxisRate);
-                SmartDashboard.putNumber("xAxisRate", xAxisRate);
-                SmartDashboard.putNumber("rightAxisRate", rightAxisRate);
-                SmartDashboard.putNumber("leftAxisRate", leftAxisRate);
                 SmartDashboard.putBoolean("isBalanced", leftAxisRate == 0 && rightAxisRate == 0);
                 didBalance = leftAxisRate == 0 && rightAxisRate == 0;
                 leftSpeeds.add(leftAxisRate);
@@ -107,7 +106,7 @@ public class Auto {
                 states.LeftDriveMotors = (leftAxisRate*0.85);
                 states.RightDriveMotors = (leftAxisRate*0.85);
             } catch (RuntimeException ex) {
-                // IDK MAN
+                // IDK MAN HI ZANE GEORGIA WAS HERE HI ZANE HI ZANE HI ZANE HI ZANE I AM BORED I HAVE NOTHING BETTER TO BE DOING RIGHT NOW 
             }
             return new AutoTaskResult(states, didBalance);
         });
@@ -116,9 +115,12 @@ public class Auto {
 
     static final double kOffBalanceAngleThresholdDegrees = 0;
     static final double kOonBalanceAngleThresholdDegrees = 0;
+    static final double stallThreshHold = 0.5;
 
     public void Invoke(AutoState state) {
         SmartDashboard.putNumber("AutoTimer", state.timeElapsed);
+        SmartDashboard.putNumber("outputCurrent", state.drive.Hardware.LeftMotor2.getOutputCurrent());
+        SmartDashboard.putBoolean("isStalled",state.drive.Hardware.LeftMotor2.getOutputCurrent() > stallThreshHold);
 
         Command event = tasks.get(0);
         AutoTaskResult states = event.Execute(state.drive, new HardwareStates());
