@@ -38,7 +38,7 @@ public class Auto {
             states.LeftDriveMotors = 0.35;
             states.RightDriveMotors = 0.35;
 
-            boolean didBalance = !drive.Hardware.NavX.getPitch() > 10;
+            boolean didBalance = !(drive.Hardware.NavX.getPitch() > 10);
             return new AutoTaskResult(states, didBalance);
         });
 
