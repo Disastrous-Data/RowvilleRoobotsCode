@@ -8,7 +8,6 @@ public class TankDrive {
 
     private MotorController[] LeftMotors;
     private MotorController[] RightMotors;
-    private MotorController[] WinchMotors;
     private MotorController[] ArmMotors;
 
     public Pnumatics Pnumatics;
@@ -27,12 +26,8 @@ public class TankDrive {
             hardware.RightMotor1,
             hardware.RightMotor2
         };
-        WinchMotors = new MotorController[] {
-            hardware.WinchLeft,
-            hardware.WinchRight
-        };
         ArmMotors = new MotorController[] {
-            hardware.Arm
+            hardware.ArmInOut
         };
         Pnumatics = new Pnumatics(hardware.Solenoid);
         Controller = hardware.LeftJoystick;
@@ -45,10 +40,12 @@ public class TankDrive {
         SetRightDrive(states.RightDriveMotors);
 
         // Winch
-        SetWinchPower(states.ArmUpDownMotors);
+        SetWinchPower(states.Arm);
 
         // Arm
         SetArmPower(states.ArmInOutMotors);
+
+        Hardware.Intake.set(states.Intake);
 
         //Claw Piston
         //SetClawPiston(states.ClawPiston);
@@ -67,9 +64,8 @@ public class TankDrive {
     }
 
     public void SetWinchPower(double s) {
-        for (MotorController c : WinchMotors) {
-            c.set(s);
-        }
+        Hardware.WinchLeft.set(s);
+        Hardware.WinchRight.set(s);
     }
 
     public void SetArmPower(double s) {

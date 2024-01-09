@@ -25,12 +25,23 @@ public class Auto {
     // Add timed events using registerTimedEvent only in Init().
     public void Init() {
         // Register timed events
-        // registerOneOffEvent(0, new Command() {
-        //     public HardwareStates Execute(TankDrive drive, HardwareStates states) {
-        //         drive.Leds.LEDRainbow();
+
+        // START EXIT HOME
+
+        // Back out of home area
+        // registerTimedEvent(0, 2, new Command() {
+        //     public HardwareStates Execute(
+        //         TankDrive drive, HardwareStates states) {
+        //         states.LeftDriveMotors = 0.6;
+        //         states.RightDriveMotors = 0.6;
         //         return states;
         //     }
         // });
+
+        // START DOCk
+
+    
+        // Go onto the start of the charge station
         registerTimedEvent(0,1, new Command() {
             public HardwareStates Execute(
                 TankDrive drive, HardwareStates states) {
@@ -40,6 +51,7 @@ public class Auto {
             }
         });
 
+        // Go over the charge station and out of home zone
         registerTimedEvent(1,4, new Command() {
             public HardwareStates Execute(
                 TankDrive drive, HardwareStates states) {
@@ -49,16 +61,17 @@ public class Auto {
             }
         });
 
+        // Back back onto the charge station
         registerTimedEvent(4, 6.6, new Command() {
             public HardwareStates Execute(TankDrive drive, HardwareStates states) {
-                states.LeftDriveMotors = -0.3;
-                states.RightDriveMotors = -0.3;
+                states.LeftDriveMotors = -0.4;
+                states.RightDriveMotors = -0.4;
                 return states;
             }
         });
 
         // Balance
-        registerTimedEvent(6.6, 15, new Command() {
+        registerTimedEvent(6.6, 25, new Command() {
             public HardwareStates Execute(TankDrive drive, HardwareStates states) {
                 double xAxisRate = 0;
                 double yAxisRate = 0;
@@ -91,11 +104,15 @@ public class Auto {
                     SmartDashboard.putBoolean("x Balance Enabled", autoBalanceXMode);
                     double pitchAngleRadians = pitchAngleDegrees * (Math.PI / 180.0);
                     xAxisRate = Math.sin(pitchAngleRadians) * -1;
+                } else {
+                    states.Intake = 0.5;
                 }
                 if (autoBalanceYMode) {
                     SmartDashboard.putBoolean("y Balance Enabled", autoBalanceYMode);
                     double rollAngleRadians = rollAngleDegrees * (Math.PI / 180.0);
                     yAxisRate = Math.sin(rollAngleRadians) * -1;
+                } else {
+                    states.Intake = 0.5;
                 }
 
                 try {
@@ -107,11 +124,13 @@ public class Auto {
                     SmartDashboard.putNumber("rightAxisRate", rightAxisRate);
                     SmartDashboard.putNumber("leftAxisRate", leftAxisRate);
                     leftSpeeds.add(leftAxisRate);
-                    SmartDashboard.putNumberArray("leftAxisRate", leftSpeeds.stream().mapToDouble(o -> ((Number) o).doubleValue()).toArray());
-                    states.LeftDriveMotors = (leftAxisRate*0.85);
-                    states.RightDriveMotors = (leftAxisRate*0.85);
+                    // SmartDashboard.putNumberArray("leftAxisRate", leftSpeeds.stream().mapToDouble(o -> ((Number) o).doubleValue()).toArray());
+                    states.LeftDriveMotors = (leftAxisRate*-1);
+                    states.RightDriveMotors = (leftAxisRate*-1);
                 } catch (RuntimeException ex) {
                     // IDK MAN
+                    states.LeftDriveMotors = -0.3;
+                    states.RightDriveMotors = 0.3;
                 }
                 return states;
             }
@@ -183,10 +202,10 @@ public class Auto {
             if (state.timeElapsed >= event.StartTime && state.timeElapsed <= event.EndTime) {
                 HardwareStates states = event.Method.Execute(state.drive, new HardwareStates());
                 
-                // ARM LIMIT SWITCH
-                if (state.drive.Hardware.ArmLimitSwitch.get() && states.ArmUpDownMotors < 0) {
-                    states.ArmUpDownMotors = 0;
-                }
+                // // ARM LIMIT SWITCH
+                // if (state.drive.Hardware.ArmLimitSwitch.get() && states.ArmUpDownMotors < 0) {
+                //     states.ArmUpDownMotors = 0;
+                // }
 
                 state.drive.Update(states);
                 didDoSomething = true;
@@ -197,9 +216,9 @@ public class Auto {
                 HardwareStates states = oneOffEvent.Method.Execute(state.drive, new HardwareStates());
                 
                 // ARM LIMIT SWITCH
-                if (state.drive.Hardware.ArmLimitSwitch.get() && states.ArmUpDownMotors < 0) {
-                    states.ArmUpDownMotors = 0;
-                }
+                // if (state.drive.Hardware.ArmLimitSwitch.get() && states.ArmUpDownMotors < 0) {
+                //     states.ArmUpDownMotors = 0;
+                // }
 
                 state.drive.Update(states);
                 oneOffEvents.remove(oneOffEvent);

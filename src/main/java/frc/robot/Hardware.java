@@ -14,6 +14,8 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.motorcontrol.MotorController;
+import edu.wpi.first.wpilibj.motorcontrol.Spark;
+
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.kauailabs.navx.frc.AHRS;
 
@@ -25,7 +27,9 @@ public class Hardware {
     public CANSparkMax LeftMotor1;
     public CANSparkMax LeftMotor2;
 
-    public WPI_TalonSRX Arm;
+    public CANSparkMax Intake;
+
+    public WPI_TalonSRX ArmInOut;
 
     public WPI_TalonSRX WinchLeft;
     public WPI_TalonSRX WinchRight;
@@ -50,9 +54,11 @@ public class Hardware {
         LeftMotor1 = new CANSparkMax(3, MotorType.kBrushed);
         LeftMotor2 = new CANSparkMax(4, MotorType.kBrushed);
 
-        Arm = new WPI_TalonSRX(5);
+        Intake = new CANSparkMax(5, MotorType.kBrushless);
         LeftJoystick = new Joystick(0);
         Slider = new Joystick(3);
+
+        ArmInOut = new WPI_TalonSRX(5);
 
         WinchRight = new WPI_TalonSRX(6);
         WinchLeft = new WPI_TalonSRX(7);
@@ -90,7 +96,7 @@ public class Hardware {
         RightMotor2.set(0);
         LeftMotor1.set(0);
         LeftMotor2.set(0);
-        Arm.set(0);
+        Intake.set(0);
         WinchLeft.set(0);
         WinchRight.set(0);
     }

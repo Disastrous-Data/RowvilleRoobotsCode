@@ -12,6 +12,7 @@ public class Robot extends TimedRobot {
   private Auto auto = new Auto();
 
   private double autoStartTime = 0;
+  private double teleopStartTime = 0;
 
   private UsbCamera camera1;
 
@@ -29,11 +30,12 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopInit() {
     drive.SetClawPiston(false);
+    teleopStartTime = Timer.getFPGATimestamp();
   }
 
   @Override
   public void teleopPeriodic() {
-    teleop.Invoke(drive);
+    teleop.Invoke(drive, Timer.getFPGATimestamp() - teleopStartTime);
   }
 
   @Override
