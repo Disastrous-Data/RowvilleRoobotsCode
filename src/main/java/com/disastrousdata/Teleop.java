@@ -61,7 +61,7 @@ public class Teleop {
         states.LeftDriveMotors = leftDriveValue;
         states.RightDriveMotors = rightDriveValue;
 
-        drive.Update(states);
+        drive.Update(states);  // PUT MOVEMENT CODE BEFORE THIS LINE
         SmartDashboard.putNumber("outputCurrent", drive.Hardware.LeftMotor2.getOutputCurrent());
         SmartDashboard.putBoolean("isStalled", drive.Hardware.LeftMotor2.getOutputCurrent() > stallThreshHold);
         SmartDashboard.putBoolean("isLimitSwitch", drive.Hardware.LimitSwitch.get());
