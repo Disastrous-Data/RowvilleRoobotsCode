@@ -1,4 +1,4 @@
-package frc.robot;
+package com.disastrousdata;
 
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.Timer;
@@ -6,30 +6,29 @@ import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.cscore.UsbCamera;
 
 public class Robot extends TimedRobot {
-  private Hardware hardware = new Hardware();
-  private TankDrive drive = new TankDrive();
-  private Teleop teleop = new Teleop();
-  private Auto auto = new Auto();
+  private final Hardware hardware = new Hardware();
+  private final TankDrive drive = new TankDrive();
+  private final Teleop teleop = new Teleop();
+  private final Auto auto = new Auto();
 
   private double autoStartTime = 0;
   private double teleopStartTime = 0;
 
-  private UsbCamera camera1;
-
-  @Override
+    @Override
   public void robotInit() {
+
+    // Load all hardware and subsystems.
     hardware.Init();
     drive.Init(hardware);
     auto.Init();
+
     // Starts camera server for usb camera plugged into RoboRIO, pushes to dashboard(s).
-    // CameraServer.startAutomaticCapture();  
-    camera1 = CameraServer.startAutomaticCapture(0);
+    UsbCamera camera1 = CameraServer.startAutomaticCapture(0);
     camera1.setFPS(60);
   }
 
   @Override
   public void teleopInit() {
-    drive.SetClawPiston(false);
     teleopStartTime = Timer.getFPGATimestamp();
   }
 
@@ -41,7 +40,6 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousInit() {
     autoStartTime = Timer.getFPGATimestamp();
-    drive.SetClawPiston(true);
   }
 
   @Override

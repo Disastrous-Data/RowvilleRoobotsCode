@@ -1,4 +1,4 @@
-package frc.robot;
+package com.disastrousdata;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
@@ -11,6 +11,7 @@ public class Pnumatics {
         sol = solenoid;
     }
 
+    @SuppressWarnings("unused")  // I KNOW IT'S NOT USED, IT WILL IN THE FUTURE
     public void SetState(boolean state) {
         if (state) {
             // Enable

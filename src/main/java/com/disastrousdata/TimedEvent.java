@@ -1,4 +1,4 @@
-package frc.robot;
+package com.disastrousdata;
 
 public class TimedEvent {
     public double StartTime;

@@ -1,4 +1,4 @@
-package frc.robot;
+package com.disastrousdata;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.motorcontrol.MotorController;
@@ -8,7 +8,6 @@ public class TankDrive {
 
     private MotorController[] LeftMotors;
     private MotorController[] RightMotors;
-    private MotorController[] ArmMotors;
 
     public Pnumatics Pnumatics;
     public Joystick Controller;
@@ -26,29 +25,14 @@ public class TankDrive {
             hardware.RightMotor1,
             hardware.RightMotor2
         };
-        ArmMotors = new MotorController[] {
-            hardware.ArmInOut
-        };
         Pnumatics = new Pnumatics(hardware.Solenoid);
         Controller = hardware.LeftJoystick;
     }
 
     public void Update(HardwareStates states) {
-
         // Drive
         SetLeftDrive(states.LeftDriveMotors);
         SetRightDrive(states.RightDriveMotors);
-
-        // Winch
-        SetWinchPower(states.Arm);
-
-        // Arm
-        SetArmPower(states.ArmInOutMotors);
-
-        Hardware.Intake.set(states.Intake);
-
-        //Claw Piston
-        //SetClawPiston(states.ClawPiston);
     }
 
     public void SetLeftDrive(double s) {
@@ -63,23 +47,7 @@ public class TankDrive {
         }
     }
 
-    public void SetWinchPower(double s) {
-        Hardware.WinchLeft.set(s);
-        Hardware.WinchRight.set(s);
-    }
-
-    public void SetArmPower(double s) {
-        for (MotorController c : ArmMotors) {
-            c.set(s);
-        }
-    }
-
-    // Closed is True
-    // Open is False
-    public void SetClawPiston(boolean s) {
-        Pnumatics.SetState(s);
-    }
-
+    @SuppressWarnings("unused")  // May be used in future
     public void Stop() {
         Hardware.Reset();
     }
