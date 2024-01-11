@@ -1,3 +1,11 @@
+/*
+Robot.java
+Written by CoPokBl
+
+This contains the framework for executing auto and teleop code.
+You probably shouldn't modify this file.
+*/
+
 package com.disastrousdata;
 
 import edu.wpi.first.wpilibj.TimedRobot;

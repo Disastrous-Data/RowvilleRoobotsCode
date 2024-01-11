@@ -1,10 +1,23 @@
-package com.disastrousdata;
+/*
+Auto.java
+Written by CoPokBl
 
-// In auto we want to do the following
-// - Extend arm
-// - Place cone on a base
-// - Move arm away
-// - Go back out of the line
+This contains the framework and auto routine code.
+To modify the auto routine, modify the Init() function and add/modify the registerTimedEvent lines.
+In the invocation, pass the time in seconds since the start of auto to start executing it and the time
+in seconds since the start of auto to stop executing it. new Command() will be called each tick
+in between those times.
+
+The command Execute() function should take the states variable it is given and modify it to change
+the speeds of the motors. It should then return the states variable it was given. The drive variable
+can be used to control some things that aren't available in the states variable.
+AVOID USING THE DRIVE VARIABLE, ONLY USE IT IF THERE IS NO OTHER WAY TO DO SOMETHING.
+
+If you need to run a command once at a specific time, use registerOneOffEvent instead of registerTimedEvent,
+and pass the time in seconds since the start of auto to run the command at.
+*/
+
+package com.disastrousdata;
 
 import java.util.ArrayList;
 import java.util.List;

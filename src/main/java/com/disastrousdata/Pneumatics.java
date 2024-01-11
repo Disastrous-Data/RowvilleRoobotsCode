@@ -1,13 +1,23 @@
+/*
+Pneumatics.java
+Written by CoPokBl
+
+That is a very hard word to spell.
+This is a wrapper class for controlling pneumatics.
+Instantiate it with a DoubleSolenoid and then use SetState to set the state of the solenoid.
+It isn't that necessary, but it makes code easier to read.
+*/
+
 package com.disastrousdata;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 
-public class Pnumatics {
+public class Pneumatics {
 
     DoubleSolenoid sol;
 
-    public Pnumatics(DoubleSolenoid solenoid) {
+    public Pneumatics(DoubleSolenoid solenoid) {
         sol = solenoid;
     }
 

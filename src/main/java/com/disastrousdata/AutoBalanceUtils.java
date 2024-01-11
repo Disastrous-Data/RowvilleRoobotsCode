@@ -1,11 +1,24 @@
+/*
+AutoBalanceUtils.java
+Written by CoPokBl
+
+This entire file just contains the code for the auto balance system.
+Running balance with the current robot hardware information will return
+the motor states needed to balance. It should be called every tick and
+the states returned should be applied to the robot.
+
+If the robot just spins when this is run it means there is an error.
+I don't what the error is, but it is definitely an error.
+*/
+
 package com.disastrousdata;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class AutoBalanceUtils {
 
-    private static final double kOffBalanceAngleThresholdDegrees = 0;
-    private static final double kOonBalanceAngleThresholdDegrees = 0;
+    private static final double OFF_BALANCE_ANGLE_THRESHOLD_DEGREES = 0;
+    private static final double OON_BALANCE_ANGLE_THRESHOLD_DEGREES = 0;
 
     private boolean autoBalanceXMode;
     private boolean autoBalanceYMode;
@@ -24,14 +37,14 @@ public class AutoBalanceUtils {
         SmartDashboard.putNumber("roll", rollAngleDegrees);
         SmartDashboard.putNumber("pitch", pitchAngleDegrees);
 
-        if (!autoBalanceXMode && (Math.abs(pitchAngleDegrees) >= Math.abs(kOffBalanceAngleThresholdDegrees))) {
+        if (!autoBalanceXMode && (Math.abs(pitchAngleDegrees) >= Math.abs(OFF_BALANCE_ANGLE_THRESHOLD_DEGREES))) {
             autoBalanceXMode = true;
-        } else if (autoBalanceXMode && (Math.abs(pitchAngleDegrees) <= Math.abs(kOonBalanceAngleThresholdDegrees))) {
+        } else if (autoBalanceXMode && (Math.abs(pitchAngleDegrees) <= Math.abs(OON_BALANCE_ANGLE_THRESHOLD_DEGREES))) {
             autoBalanceXMode = false;
         }
-        if (!autoBalanceYMode && (Math.abs(pitchAngleDegrees) >= Math.abs(kOffBalanceAngleThresholdDegrees))) {
+        if (!autoBalanceYMode && (Math.abs(pitchAngleDegrees) >= Math.abs(OFF_BALANCE_ANGLE_THRESHOLD_DEGREES))) {
             autoBalanceYMode = true;
-        } else if (autoBalanceYMode && (Math.abs(pitchAngleDegrees) <= Math.abs(kOonBalanceAngleThresholdDegrees))) {
+        } else if (autoBalanceYMode && (Math.abs(pitchAngleDegrees) <= Math.abs(OON_BALANCE_ANGLE_THRESHOLD_DEGREES))) {
             autoBalanceYMode = false;
         }
 

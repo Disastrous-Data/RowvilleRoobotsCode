@@ -1,3 +1,16 @@
+/*
+Hardware.java
+Written by CoPokBl
+
+This contains all the hardware definitions for the robot.
+An instance of it can be used to access all the hardware.
+If any hardware is changed for added it should be added here.
+
+Where possible you shouldn't use anything here directly, instead use
+a TankDrive instance which is a safer approach and allows for
+checks to be made on the values being set to the motors.
+*/
+
 package com.disastrousdata;
 
 import com.kauailabs.navx.frc.AHRS;
@@ -25,7 +38,7 @@ public class Hardware {
     public Joystick Slider;
 
     // ==========================
-    //         Pnumatics
+    //         Pneumatics
     // ==========================
     public Compressor AirCompressor;
     public DoubleSolenoid Solenoid;

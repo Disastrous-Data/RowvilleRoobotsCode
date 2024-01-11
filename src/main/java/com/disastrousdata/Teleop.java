@@ -1,3 +1,20 @@
+/*
+Teleop.java
+Written by CoPokBl
+
+This contains all teleop code and a nice framework for executing it.
+Invoke is called every tick in teleopPeriodic in Robot.java.
+
+Code to actually control the robot should be added after the big comment to ensure
+all stop logic and framework code works properly.
+
+To check if a button is currently pressed use drive.Controller.getRawButton(buttonId)
+To check if a button was just pressed use wasJustPressed(buttonId)
+If you use wasJustPressed(buttonId) it will return true only once when the button is pressed.
+
+Put every button you plan on using into buttonIds so that it will be tracked.
+*/
+
 package com.disastrousdata;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;

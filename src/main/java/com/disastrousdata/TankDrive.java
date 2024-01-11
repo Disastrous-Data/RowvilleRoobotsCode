@@ -1,3 +1,13 @@
+/*
+TankDrive.java
+Written by CoPokBl
+
+This is a wrapper class for dealing with hardware.
+It is a more abstract way of dealing with hardware, and it makes code easier to read.
+It also allows for adding checks to hardware such as not letting an arm go too far.
+Add more hardware to this class as needed.
+*/
+
 package com.disastrousdata;
 
 import edu.wpi.first.wpilibj.Joystick;
@@ -9,7 +19,7 @@ public class TankDrive {
     private MotorController[] LeftMotors;
     private MotorController[] RightMotors;
 
-    public Pnumatics Pnumatics;
+    public Pneumatics Pneumatics;
     public Joystick Controller;
 
     public Hardware Hardware;
@@ -25,7 +35,7 @@ public class TankDrive {
             hardware.RightMotor1,
             hardware.RightMotor2
         };
-        Pnumatics = new Pnumatics(hardware.Solenoid);
+        Pneumatics = new Pneumatics(hardware.Solenoid);
         Controller = hardware.LeftJoystick;
     }
 
