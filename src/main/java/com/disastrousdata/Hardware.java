@@ -32,9 +32,15 @@ public class Hardware {
     public CANSparkMax LeftMotor2;
 
     // ==========================
+    //        Other Motors
+    // ==========================
+    public CANSparkMax TopIntakeMotor;
+    public CANSparkMax BottomIntakeMotor;
+
+    // ==========================
     //         Controls
     // ==========================
-    public Joystick LeftJoystick;
+    public Joystick Controller;
     public Joystick Slider;
 
     // ==========================
@@ -55,7 +61,10 @@ public class Hardware {
         LeftMotor1 = new CANSparkMax(3, MotorType.kBrushed);
         LeftMotor2 = new CANSparkMax(4, MotorType.kBrushed);
 
-        LeftJoystick = new Joystick(0);
+        TopIntakeMotor = new CANSparkMax(5, MotorType.kBrushless);  // TODO: Work out what this is
+        BottomIntakeMotor = new CANSparkMax(6, MotorType.kBrushless);  // TODO: Work out what this is
+
+        Controller = new Joystick(0);
         Slider = new Joystick(3);
 
         RightMotor2.setInverted(true);

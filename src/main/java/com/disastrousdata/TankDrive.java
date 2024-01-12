@@ -19,6 +19,9 @@ public class TankDrive {
     private MotorController[] LeftMotors;
     private MotorController[] RightMotors;
 
+    private MotorController IntakeTop;
+    private MotorController IntakeBottom;
+
     public Pneumatics Pneumatics;
     public Joystick Controller;
 
@@ -35,8 +38,12 @@ public class TankDrive {
             hardware.RightMotor1,
             hardware.RightMotor2
         };
+
+        IntakeTop = hardware.TopIntakeMotor;
+        IntakeBottom = hardware.BottomIntakeMotor;
+
         Pneumatics = new Pneumatics(hardware.Solenoid);
-        Controller = hardware.LeftJoystick;
+        Controller = hardware.Controller;
     }
 
     public void Update(HardwareStates states) {
@@ -54,6 +61,34 @@ public class TankDrive {
     public void SetRightDrive(double s) {
         for (MotorController c : RightMotors) {
             c.set(s);
+        }
+    }
+
+    public enum IntakeMode {
+        OFF,
+        INTAKE,
+        CHARGE,
+        SHOOT
+    }
+
+    public void SetIntakeMode(IntakeMode mode) {
+        switch (mode) {
+            case OFF:
+                IntakeTop.set(0);
+                IntakeBottom.set(0);
+                break;
+            case INTAKE:
+                IntakeTop.set(-0.3);
+                IntakeBottom.set(-0.3);
+                break;
+            case CHARGE:
+                IntakeTop.set(1);
+                IntakeBottom.set(0);
+                break;
+            case SHOOT:
+                IntakeTop.set(1);
+                IntakeBottom.set(1);
+                break;
         }
     }
 

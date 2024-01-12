@@ -9,15 +9,15 @@ Code to actually control the robot should be added after the big comment to ensu
 all stop logic and framework code works properly.
 
 To check if a button is currently pressed use drive.Controller.getRawButton(buttonId)
-To check if a button was just pressed use wasJustPressed(buttonId)
-If you use wasJustPressed(buttonId) it will return true only once when the button is pressed.
+To check if a button was just pressed use wasJustPressed(keybind)
+If you use wasJustPressed(keybind) it will return true only once when the button is pressed.
 
 Put every button you plan on using into buttonIds so that it will be tracked.
+
+You can also add variables to the state variables section to keep track of things.
 */
 
 package com.disastrousdata;
-
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -39,10 +39,12 @@ public class Teleop {
     private final HashMap<Integer, Boolean> lastButtonStates = new HashMap<>();
     private final List<Integer> justPressed = new ArrayList<>();
 
+    // STATE VARIABLES
+    private boolean isIntakeOn = false;
+    private boolean hasGamePiece = false;
 
-    @SuppressWarnings("unused")  // WILL BE USED IN FUTURE
-    private boolean wasJustPressed(int id) {
-        return justPressed.contains(id);
+    private boolean wasJustPressed(Keybinds bind) {
+        return justPressed.contains(bind.buttonId);
     }
 
     public void Invoke(TankDrive drive, double time) {
@@ -69,6 +71,24 @@ public class Teleop {
         // | ALL CODE GOES AFTER THIS SO THAT STOP LOGIC WORKS |
         // |---------------------------------------------------|
 
+        if (wasJustPressed(Keybinds.INTAKE_TOGGLE)) {
+            if (hasGamePiece) {  // Shoot it
+                hasGamePiece = false;
+                drive.SetIntakeMode(TankDrive.IntakeMode.SHOOT);
+            } else {  // Toggle intake mode
+                isIntakeOn = !isIntakeOn;
+                drive.SetIntakeMode(isIntakeOn ? TankDrive.IntakeMode.INTAKE : TankDrive.IntakeMode.OFF);
+            }
+        }
+
+        if (wasJustPressed(Keybinds.INTAKE_READY)) {  // TODO: Check Game piece detected with line break/limit switch
+            hasGamePiece = true;
+            Dash.set("hasGamePiece", true);
+            drive.SetIntakeMode(TankDrive.IntakeMode.CHARGE);
+        } else {
+            Dash.set("hasGamePiece", false);
+        }
+
         double fb = drive.Controller.getY() + axis1Offset / 2;
         double lr = drive.Controller.getX() + axis0Offset / 2;
         lr = lr * 0.5;
@@ -79,9 +99,9 @@ public class Teleop {
         states.RightDriveMotors = rightDriveValue;
 
         drive.Update(states);  // PUT MOVEMENT CODE BEFORE THIS LINE
-        SmartDashboard.putNumber("outputCurrent", drive.Hardware.LeftMotor2.getOutputCurrent());
-        SmartDashboard.putBoolean("isStalled", drive.Hardware.LeftMotor2.getOutputCurrent() > stallThreshHold);
-        SmartDashboard.putBoolean("isLimitSwitch", drive.Hardware.LimitSwitch.get());
+        Dash.set("outputCurrent", drive.Hardware.LeftMotor2.getOutputCurrent());
+        Dash.set("isStalled", drive.Hardware.LeftMotor2.getOutputCurrent() > stallThreshHold);
+        Dash.set("isLimitSwitch", drive.Hardware.LimitSwitch.get());
     }
 
 }

@@ -13,8 +13,6 @@ I don't what the error is, but it is definitely an error.
 
 package com.disastrousdata;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
 public class AutoBalanceUtils {
 
     private static final double OFF_BALANCE_ANGLE_THRESHOLD_DEGREES = 0;
@@ -34,8 +32,8 @@ public class AutoBalanceUtils {
         double pitchAngleDegrees = drive.Hardware.NavX.getPitch();
         double rollAngleDegrees = drive.Hardware.NavX.getRoll();
 
-        SmartDashboard.putNumber("roll", rollAngleDegrees);
-        SmartDashboard.putNumber("pitch", pitchAngleDegrees);
+        Dash.set("roll", rollAngleDegrees);
+        Dash.set("pitch", pitchAngleDegrees);
 
         if (!autoBalanceXMode && (Math.abs(pitchAngleDegrees) >= Math.abs(OFF_BALANCE_ANGLE_THRESHOLD_DEGREES))) {
             autoBalanceXMode = true;
@@ -51,8 +49,8 @@ public class AutoBalanceUtils {
         // Control drive system automatically,
         // driving in reverse direction of pitch/roll angle,
         // with a magnitude based upon the angle
-        SmartDashboard.putBoolean("x Balance Enabled", autoBalanceXMode);
-        SmartDashboard.putBoolean("y Balance Enabled", autoBalanceYMode);
+        Dash.set("x Balance Enabled", autoBalanceXMode);
+        Dash.set("y Balance Enabled", autoBalanceYMode);
         if (autoBalanceXMode) {
             double pitchAngleRadians = pitchAngleDegrees * (Math.PI / 180.0);
             xAxisRate = Math.sin(pitchAngleRadians) * -1;
@@ -65,10 +63,10 @@ public class AutoBalanceUtils {
         try {
             double leftAxisRate = yAxisRate + xAxisRate;
             double rightAxisRate = yAxisRate - xAxisRate;
-            SmartDashboard.putNumber("yAxisRate", yAxisRate);
-            SmartDashboard.putNumber("xAxisRate", xAxisRate);
-            SmartDashboard.putNumber("rightAxisRate", rightAxisRate);
-            SmartDashboard.putNumber("leftAxisRate", leftAxisRate);
+            Dash.set("yAxisRate", yAxisRate);
+            Dash.set("xAxisRate", xAxisRate);
+            Dash.set("rightAxisRate", rightAxisRate);
+            Dash.set("leftAxisRate", leftAxisRate);
             states.LeftDriveMotors = (leftAxisRate*-1);
             states.RightDriveMotors = (leftAxisRate*-1);
         } catch (RuntimeException ex) {

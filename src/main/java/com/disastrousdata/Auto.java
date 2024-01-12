@@ -22,8 +22,6 @@ package com.disastrousdata;
 import java.util.ArrayList;
 import java.util.List;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
 public class Auto {
 
     private final List<TimedEvent> events = new ArrayList<>();
@@ -79,7 +77,7 @@ public class Auto {
     // Invoked periodically during Auto, don't modify this method. Use registerTimedEvent in the init()
     // function instead to set the auto routine.
     public void Invoke(AutoState state) {
-        SmartDashboard.putNumber("AutoTimer", state.timeElapsed);
+        Dash.set("AutoTimer", state.timeElapsed);
         boolean didDoSomething = false;
         for (TimedEvent event : events) {
             if (state.timeElapsed >= event.StartTime && state.timeElapsed <= event.EndTime) {
