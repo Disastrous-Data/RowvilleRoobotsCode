@@ -19,8 +19,8 @@ public class TankDrive {
     private MotorController[] LeftMotors;
     private MotorController[] RightMotors;
 
-    private MotorController IntakeTop;
-    private MotorController IntakeBottom;
+    public MotorController IntakeTop;
+    public MotorController IntakeBottom;
 
     public Pneumatics Pneumatics;
     public Joystick Controller;

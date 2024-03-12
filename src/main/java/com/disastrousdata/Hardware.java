@@ -13,6 +13,8 @@ checks to be made on the values being set to the motors.
 
 package com.disastrousdata;
 
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.kauailabs.navx.frc.AHRS;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.IdleMode;
@@ -34,8 +36,8 @@ public class Hardware {
     // ==========================
     //        Other Motors
     // ==========================
-    public CANSparkMax TopIntakeMotor;
-    public CANSparkMax BottomIntakeMotor;
+    public WPI_TalonSRX TopIntakeMotor;
+    public WPI_TalonSRX BottomIntakeMotor;
 
     // ==========================
     //         Controls
@@ -55,14 +57,15 @@ public class Hardware {
     public DigitalInput LimitSwitch;
     public AHRS NavX;
 
-    public void Init() {
+    public void Init() {  // Arm: 2,4 Intake: 5,7
         RightMotor1 = new CANSparkMax(1, MotorType.kBrushed);
         RightMotor2 = new CANSparkMax(2, MotorType.kBrushed);
         LeftMotor1 = new CANSparkMax(3, MotorType.kBrushed);
+
         LeftMotor2 = new CANSparkMax(4, MotorType.kBrushed);
 
-        TopIntakeMotor = new CANSparkMax(5, MotorType.kBrushless);  // TODO: Work out what this is
-        BottomIntakeMotor = new CANSparkMax(6, MotorType.kBrushless);  // TODO: Work out what this is
+        TopIntakeMotor = new WPI_TalonSRX(5);
+        BottomIntakeMotor = new WPI_TalonSRX(7);  // TODO: Work out what this is
 
         Controller = new Joystick(0);
         Slider = new Joystick(3);
@@ -77,10 +80,10 @@ public class Hardware {
         LeftMotor1.setIdleMode(IdleMode.kBrake);
         LeftMotor2.setIdleMode(IdleMode.kBrake);
 
-        AirCompressor = new Compressor(PneumaticsModuleType.REVPH);
-        Solenoid = new DoubleSolenoid(PneumaticsModuleType.REVPH, 0, 1);
+        //AirCompressor = new Compressor(PneumaticsModuleType.REVPH);
+        //Solenoid = new DoubleSolenoid(PneumaticsModuleType.REVPH, 0, 1);
 
-        LimitSwitch = new DigitalInput(9);
+        //LimitSwitch = new DigitalInput(9);
         NavX = new AHRS();
     }
 

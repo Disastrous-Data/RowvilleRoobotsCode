@@ -9,7 +9,7 @@ Controller: Logitech Extreme 3D Pro
 package com.disastrousdata.controllers;
 
 public enum JoystickButtons implements Controller {
-    TRIGGER(0),
+    TRIGGER(1),
     SIDE_BUTTON(1),
     BOTTOM_LEFT_3(2),
     BOTTOM_RIGHT_4(3),

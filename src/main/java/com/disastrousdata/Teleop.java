@@ -71,22 +71,30 @@ public class Teleop {
         // | ALL CODE GOES AFTER THIS SO THAT STOP LOGIC WORKS |
         // |---------------------------------------------------|
 
-        if (wasJustPressed(Keybinds.INTAKE_TOGGLE)) {
-            if (hasGamePiece) {  // Shoot it
-                hasGamePiece = false;
-                drive.SetIntakeMode(TankDrive.IntakeMode.SHOOT);
-            } else {  // Toggle intake mode
-                isIntakeOn = !isIntakeOn;
-                drive.SetIntakeMode(isIntakeOn ? TankDrive.IntakeMode.INTAKE : TankDrive.IntakeMode.OFF);
-            }
-        }
+        // if (wasJustPressed(Keybinds.INTAKE_TOGGLE)) {
+        //     if (hasGamePiece) {  // Shoot it
+        //         hasGamePiece = false;
+        //         drive.SetIntakeMode(TankDrive.IntakeMode.SHOOT);
+        //     } else {  // Toggle intake mode
+        //         isIntakeOn = !isIntakeOn;
+        //         drive.SetIntakeMode(isIntakeOn ? TankDrive.IntakeMode.INTAKE : TankDrive.IntakeMode.OFF);
+        //     }
+        // }
 
-        if (wasJustPressed(Keybinds.INTAKE_READY)) {  // TODO: Check Game piece detected with line break/limit switch
-            hasGamePiece = true;
-            Dash.set("hasGamePiece", true);
-            drive.SetIntakeMode(TankDrive.IntakeMode.CHARGE);
+        // if (wasJustPressed(Keybinds.INTAKE_READY)) {  // TODO: Check Game piece detected with line break/limit switch
+        //     hasGamePiece = true;
+        //     Dash.set("hasGamePiece", true);
+        //     drive.SetIntakeMode(TankDrive.IntakeMode.CHARGE);
+        // } else {
+        //     Dash.set("hasGamePiece", false);
+        // }
+
+        if (drive.Controller.getRawButton(1)) {
+            drive.IntakeTop.set(10);
+            drive.IntakeBottom.set(10);
         } else {
-            Dash.set("hasGamePiece", false);
+            drive.IntakeTop.set(0);
+            drive.IntakeBottom.set(0);
         }
 
         double fb = drive.Controller.getY() + axis1Offset / 2;
@@ -101,7 +109,7 @@ public class Teleop {
         drive.Update(states);  // PUT MOVEMENT CODE BEFORE THIS LINE
         Dash.set("outputCurrent", drive.Hardware.LeftMotor2.getOutputCurrent());
         Dash.set("isStalled", drive.Hardware.LeftMotor2.getOutputCurrent() > stallThreshHold);
-        Dash.set("isLimitSwitch", drive.Hardware.LimitSwitch.get());
+        //Dash.set("isLimitSwitch", drive.Hardware.LimitSwitch.get());
     }
 
 }
