@@ -16,11 +16,15 @@ import com.disastrousdata.controllers.JoystickButtons;
 
 public enum Keybinds {
     INTAKE_TOGGLE(JoystickButtons.TRIGGER),
-    INTAKE_READY(JoystickButtons.SIDE_BUTTON);
+    INTAKE_READY(JoystickButtons.SIDE_BUTTON),
+    CLAW_DOWN(JoystickButtons.TOP_LEFT_5),
+    CLAW_UP(JoystickButtons.BOTTOM_LEFT_3),
+    ARM_UP(JoystickButtons.TOP_RIGHT_6),
+    ARM_DOWN(JoystickButtons.BOTTOM_RIGHT_4);
 
     public final int buttonId;
 
     Keybinds(Controller button) {
-        this.buttonId = button.buttonId;
+        this.buttonId = button.getButtonId();
     }
 }

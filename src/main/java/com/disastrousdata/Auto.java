@@ -48,23 +48,9 @@ public class Auto {
 
     
         // Go onto the start of the charge station
-        registerTimedEvent(0,1, (drive, states) -> {
+        registerTimedEvent(0,3, (drive, states) -> {
             states.LeftDriveMotors = 0.6;
             states.RightDriveMotors = 0.6;
-            return states;
-        });
-
-        // Go over the charge station and out of home zone
-        registerTimedEvent(1,4, (drive, states) -> {
-            states.LeftDriveMotors = 0.35;
-            states.RightDriveMotors = 0.35;
-            return states;
-        });
-
-        // Back back onto the charge station
-        registerTimedEvent(4, 6.6, (drive, states) -> {
-            states.LeftDriveMotors = -0.4;
-            states.RightDriveMotors = -0.4;
             return states;
         });
 

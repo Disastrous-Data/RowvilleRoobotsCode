@@ -22,6 +22,9 @@ public class TankDrive {
     public MotorController IntakeTop;
     public MotorController IntakeBottom;
 
+    public MotorController Arm;
+    public MotorController Claw;
+
     public Pneumatics Pneumatics;
     public Joystick Controller;
 
@@ -41,6 +44,9 @@ public class TankDrive {
 
         IntakeTop = hardware.TopIntakeMotor;
         IntakeBottom = hardware.BottomIntakeMotor;
+
+        Arm = hardware.ArmMotor;
+        Claw = hardware.ClawMotor;
 
         Pneumatics = new Pneumatics(hardware.Solenoid);
         Controller = hardware.Controller;
@@ -76,20 +82,32 @@ public class TankDrive {
             case OFF:
                 IntakeTop.set(0);
                 IntakeBottom.set(0);
+                Dash.set("intakemode", "off");
                 break;
             case INTAKE:
                 IntakeTop.set(-0.3);
                 IntakeBottom.set(-0.3);
+                Dash.set("intakemode", "intake");
                 break;
             case CHARGE:
                 IntakeTop.set(1);
                 IntakeBottom.set(0);
+                Dash.set("intakemode", "charge");
                 break;
             case SHOOT:
                 IntakeTop.set(1);
                 IntakeBottom.set(1);
+                Dash.set("intakemode", "shoot");
                 break;
         }
+    }
+
+    public void setClawPower(double s) {
+        Claw.set(s);
+    }
+
+    public void setArmPower(double s) {
+        Arm.set(s);
     }
 
     @SuppressWarnings("unused")  // May be used in future

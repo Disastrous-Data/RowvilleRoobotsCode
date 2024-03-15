@@ -9,5 +9,5 @@ DO NOT CHANGE THIS.
 package com.disastrousdata.controllers;
 
 public interface Controller {
-    int buttonId = 0;
+    int getButtonId();
 }

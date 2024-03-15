@@ -10,21 +10,26 @@ package com.disastrousdata.controllers;
 
 public enum JoystickButtons implements Controller {
     TRIGGER(1),
-    SIDE_BUTTON(1),
-    BOTTOM_LEFT_3(2),
-    BOTTOM_RIGHT_4(3),
-    TOP_LEFT_5(4),
-    TOP_RIGHT_6(5),
-    BASE_7(6),
-    BASE_8(7),
-    BASE_9(8),
-    BASE_10(9),
-    BASE_11(10),
-    BASE_12(11);
+    SIDE_BUTTON(2),
+    BOTTOM_LEFT_3(3),
+    BOTTOM_RIGHT_4(4),
+    TOP_LEFT_5(5),
+    TOP_RIGHT_6(6),
+    BASE_7(7),
+    BASE_8(8),
+    BASE_9(9),
+    BASE_10(10),
+    BASE_11(11),
+    BASE_12(12);
 
     public final int buttonId;
 
     JoystickButtons(int id) {
         this.buttonId = id;
+    }
+
+    @Override
+    public int getButtonId() {
+        return buttonId;
     }
 }

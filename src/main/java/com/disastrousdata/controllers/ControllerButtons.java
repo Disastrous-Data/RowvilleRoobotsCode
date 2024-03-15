@@ -25,4 +25,9 @@ public enum ControllerButtons implements Controller {
     ControllerButtons(int id) {
         this.buttonId = id;
     }
+
+    @Override
+    public int getButtonId() {
+        return buttonId;
+    }
 }
