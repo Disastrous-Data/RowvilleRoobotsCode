@@ -55,8 +55,8 @@ public class Auto {
         });
 
         // Balance
-        AutoBalanceUtils balancer = new AutoBalanceUtils();
-        registerTimedEvent(6.6, 25, balancer::Balance);
+        // AutoBalanceUtils balancer = new AutoBalanceUtils();
+        // registerTimedEvent(6.6, 25, balancer::Balance);
 
     }
     
