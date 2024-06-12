@@ -27,37 +27,39 @@ public class Auto {
     private final List<TimedEvent> events = new ArrayList<>();
     private final List<TimedEvent> oneOffEvents = new ArrayList<>();
 
+    public enum AutoMode {
+        /**
+         * We only want the mobility points nothing else
+         * the path in front of us must be clear otherwise we
+         * will hit something.
+         * Face away from wall but against it.
+         */
+        Nothing,
+
+        /**
+         * Do absolutely nothing.
+         * Just sit there and cry.
+         */
+        Mobility
+    }
 
     // Add timed events using registerTimedEvent only in Init().
-    public void Init() {
+    public void Init(AutoMode mode) {
         // Register timed events
+        switch (mode) {
+            case Mobility:
+                // Go onto the start of the charge station
+                registerTimedEvent(0,3, (drive, states) -> {
+                    states.LeftDriveMotors = 0.6;
+                    states.RightDriveMotors = 0.6;
+                    return states;
+                });
+                break;
 
-        // START EXIT HOME
-
-        // Back out of home area
-        // registerTimedEvent(0, 2, new Command() {
-        //     public HardwareStates Execute(
-        //         TankDrive drive, HardwareStates states) {
-        //         states.LeftDriveMotors = 0.6;
-        //         states.RightDriveMotors = 0.6;
-        //         return states;
-        //     }
-        // });
-
-        // START DOCk
-
-    
-        // Go onto the start of the charge station
-        registerTimedEvent(0,3, (drive, states) -> {
-            states.LeftDriveMotors = 0.6;
-            states.RightDriveMotors = 0.6;
-            return states;
-        });
-
-        // Balance
-        // AutoBalanceUtils balancer = new AutoBalanceUtils();
-        // registerTimedEvent(6.6, 25, balancer::Balance);
-
+            case Nothing:
+            default:
+                break;
+        }
     }
     
     // Invoked periodically during Auto, don't modify this method. Use registerTimedEvent in the init()

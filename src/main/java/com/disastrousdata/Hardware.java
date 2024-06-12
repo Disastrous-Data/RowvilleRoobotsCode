@@ -49,13 +49,13 @@ public class Hardware {
     // ==========================
     //         Pneumatics
     // ==========================
-    public Compressor AirCompressor;
+    //public Compressor AirCompressor;
     public DoubleSolenoid Solenoid;
 
     // ==========================
     //           Sensors
     // ==========================
-    public DigitalInput LimitSwitch;
+    //public DigitalInput LimitSwitch;
     public AHRS NavX;
 
     public void Init() {  // Arm: 2,4 Intake: 5,7

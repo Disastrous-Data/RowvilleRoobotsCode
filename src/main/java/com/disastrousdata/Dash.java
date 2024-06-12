@@ -9,6 +9,7 @@ if we end up using something else.
 
 package com.disastrousdata;
 
+import edu.wpi.first.util.sendable.Sendable;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Dash {
@@ -25,5 +26,7 @@ public class Dash {
         SmartDashboard.putBoolean(key, value);
     }
 
-    // TODO: Customise auto routine via SendableChooser
+    public static void putData(String key, Sendable value) {
+        SmartDashboard.putData(key, value);
+    }
 }
