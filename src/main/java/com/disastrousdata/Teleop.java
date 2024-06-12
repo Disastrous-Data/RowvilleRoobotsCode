@@ -99,22 +99,13 @@ public class Teleop {
             Dash.set("hasGamePiece", false);
         }
 
-        final double ARM_SPEED = 0.8;
-        if (isPressed(Keybinds.ARM_UP)) {
-            drive.setArmPower(ARM_SPEED);
-        } else if (isPressed(Keybinds.ARM_DOWN)) {
-            drive.setArmPower(-ARM_SPEED);
+        final double RollerClawSpeed = 0.5;
+        if (isPressed(Keybinds.ROLLER_CLAW_UP)) {
+            drive.SetRollerClawPower(RollerClawSpeed);
+        } else if (isPressed(Keybinds.ROLLER_CLAW_DOWN)) {
+            drive.SetRollerClawPower(-RollerClawSpeed);
         } else {
-            drive.setArmPower(0);
-        }
-
-        final double CLAW_SPEED = 0.5;
-        if (isPressed(Keybinds.CLAW_UP)) {
-            drive.setClawPower(CLAW_SPEED);
-        } else if (isPressed(Keybinds.CLAW_DOWN)) {
-            drive.setClawPower(-CLAW_SPEED);
-        } else {
-            drive.setClawPower(0);
+            drive.SetRollerClawPower(0);
         }
 
         double fb = drive.Controller.getY() + axis1Offset / 2;

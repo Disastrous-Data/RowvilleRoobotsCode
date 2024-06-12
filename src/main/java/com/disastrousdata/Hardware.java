@@ -38,8 +38,7 @@ public class Hardware {
     public WPI_TalonSRX TopIntakeMotor;
     public WPI_TalonSRX BottomIntakeMotor;
 
-    public WPI_TalonSRX ClawMotor;
-    public WPI_TalonSRX ArmMotor;
+    public CANSparkMax RollerClaw;
 
     // ==========================
     //         Controls
@@ -69,9 +68,9 @@ public class Hardware {
         TopIntakeMotor = new WPI_TalonSRX(7);
         BottomIntakeMotor = new WPI_TalonSRX(5);
 
-        ClawMotor = new WPI_TalonSRX(2);
-        ArmMotor = new WPI_TalonSRX(4);
+        RollerClaw = new CANSparkMax(8, MotorType.kBrushed);
 
+        // Controller stuff
         Controller = new Joystick(0);
         Slider = new Joystick(3);
 

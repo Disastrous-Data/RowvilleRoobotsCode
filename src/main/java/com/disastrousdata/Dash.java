@@ -25,4 +25,5 @@ public class Dash {
         SmartDashboard.putBoolean(key, value);
     }
 
+    // TODO: Customise auto routine via SendableChooser
 }

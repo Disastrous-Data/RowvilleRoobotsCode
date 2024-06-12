@@ -17,10 +17,8 @@ import com.disastrousdata.controllers.JoystickButtons;
 public enum Keybinds {
     INTAKE_TOGGLE(JoystickButtons.TRIGGER),
     INTAKE_READY(JoystickButtons.SIDE_BUTTON),
-    CLAW_DOWN(JoystickButtons.TOP_LEFT_5),
-    CLAW_UP(JoystickButtons.BOTTOM_LEFT_3),
-    ARM_UP(JoystickButtons.TOP_RIGHT_6),
-    ARM_DOWN(JoystickButtons.BOTTOM_RIGHT_4);
+    ROLLER_CLAW_UP(JoystickButtons.TOP_LEFT_5),
+    ROLLER_CLAW_DOWN(JoystickButtons.BOTTOM_LEFT_3);
 
     public final int buttonId;
 

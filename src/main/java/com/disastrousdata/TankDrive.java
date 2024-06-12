@@ -22,8 +22,7 @@ public class TankDrive {
     public MotorController IntakeTop;
     public MotorController IntakeBottom;
 
-    public MotorController Arm;
-    public MotorController Claw;
+    public MotorController RollerClaw;
 
     public Pneumatics Pneumatics;
     public Joystick Controller;
@@ -45,8 +44,7 @@ public class TankDrive {
         IntakeTop = hardware.TopIntakeMotor;
         IntakeBottom = hardware.BottomIntakeMotor;
 
-        Arm = hardware.ArmMotor;
-        Claw = hardware.ClawMotor;
+        RollerClaw = hardware.RollerClaw;
 
         Pneumatics = new Pneumatics(hardware.Solenoid);
         Controller = hardware.Controller;
@@ -102,12 +100,8 @@ public class TankDrive {
         }
     }
 
-    public void setClawPower(double s) {
-        Claw.set(s);
-    }
-
-    public void setArmPower(double s) {
-        Arm.set(s);
+    public void SetRollerClawPower(double s) {
+        RollerClaw.set(s);
     }
 
     @SuppressWarnings("unused")  // May be used in future
