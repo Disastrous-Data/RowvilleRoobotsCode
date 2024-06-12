@@ -26,16 +26,25 @@ import java.util.List;
 public class Teleop {
 
     // Constants
+
+    /** Sometimes the joystick un-calibrates itself so use this to offset the raw input */
     private static final double axis0Offset = -0.02;
+
+    /** Sometimes the joystick un-calibrates itself so use this to offset the raw input */
     private static final double axis1Offset = 0;
+
+    /** This doesn't do anything except change when the 'isStalled' value on the Dash is changed */
     private static final double stallThreshHold = 0.5;
 
+    /** A list of buttons to check for input, this should work for most controllers */
     private static final int[] buttonIds = new int[] {
         1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12
     };
 
+    /** Used to calculate delta time */
     private double timeSinceLastTickTimestamp = 0;
 
+    /** Used to calculate wasJustPressed states for buttons, only works for buttons in buttonIds */
     private final HashMap<Integer, Boolean> lastButtonStates = new HashMap<>();
     private final List<Integer> justPressed = new ArrayList<>();
     private final List<Integer> pressedButtons = new ArrayList<>();
@@ -44,14 +53,28 @@ public class Teleop {
     private boolean isIntakeOn = false;
     private boolean hasGamePiece = false;
 
+    /**
+     * Gets whether the specified bind was pressed on that 'frame'.
+     * <p>
+     * If you are checking if wasJustPressed(someBind) and it is pressed
+     * the condition will be true exactly once, until the button
+     * is repressed.
+     */
     private boolean wasJustPressed(Keybinds bind) {
         return justPressed.contains(bind.buttonId);
     }
 
+    /** Gets whether the button is being currently pressed */
     private boolean isPressed(Keybinds bind) {
         return pressedButtons.contains(bind.buttonId);
     }
 
+    /**
+     * Invoked once every 'tick' of the robot code, equivalent of teleopPeriodic().
+     * <p>
+     * `time` is the elapsed seconds since teleop began.
+     * `drive` is the TankDrive object used to control the robot.
+     */
     public void Invoke(TankDrive drive, double time) {
         HardwareStates states = new HardwareStates();
 
@@ -78,9 +101,10 @@ public class Teleop {
         }
 
         // |---------------------------------------------------|
-        // | ALL CODE GOES AFTER THIS SO THAT STOP LOGIC WORKS |
+        // | ALL CODE GOES AFTER THIS SO THAT BUTTONS WORK     |
         // |---------------------------------------------------|
 
+        // Intake control
         if (wasJustPressed(Keybinds.INTAKE_TOGGLE)) {
             if (hasGamePiece) {  // Shoot it
                 hasGamePiece = false;
@@ -99,6 +123,7 @@ public class Teleop {
             Dash.set("hasGamePiece", false);
         }
 
+        // Roller claw control (The thing that puts note in amp)
         final double RollerClawSpeed = 0.5;
         if (isPressed(Keybinds.ROLLER_CLAW_UP)) {
             drive.SetRollerClawPower(RollerClawSpeed);
@@ -108,6 +133,7 @@ public class Teleop {
             drive.SetRollerClawPower(0);
         }
 
+        // Drive
         double fb = drive.Controller.getY() + axis1Offset / 2;
         double lr = drive.Controller.getX() + axis0Offset / 2;
         lr = lr * 0.5;
@@ -117,6 +143,7 @@ public class Teleop {
         states.LeftDriveMotors = leftDriveValue;
         states.RightDriveMotors = rightDriveValue;
 
+        // Apply values and dump debug info
         drive.Update(states);  // PUT MOVEMENT CODE BEFORE THIS LINE
         Dash.set("outputCurrent", drive.Hardware.LeftMotor2.getOutputCurrent());
         Dash.set("isStalled", drive.Hardware.LeftMotor2.getOutputCurrent() > stallThreshHold);

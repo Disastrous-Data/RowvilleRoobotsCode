@@ -4,10 +4,13 @@ Written by CoPokBl
 
 This contains the IDs of all the buttons on the controller.
 Controller: Logitech Gamepad F310
+
+DO NOT EVER CHANGE THIS, unless you have a very good reason
 */
 
 package com.disastrousdata.controllers;
 
+@SuppressWarnings("unused")  // Just in case
 public enum ControllerButtons implements Controller {
     A(0),
     B(1),

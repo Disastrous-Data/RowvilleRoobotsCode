@@ -4,6 +4,8 @@ Written by CoPokBl
 
 This contains the IDs of all the buttons on the joystick.
 Controller: Logitech Extreme 3D Pro
+
+DO NOT EVER CHANGE THIS, unless you have a very good reason
 */
 
 package com.disastrousdata.controllers;

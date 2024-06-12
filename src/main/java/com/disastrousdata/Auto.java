@@ -23,10 +23,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Auto {
-
+    /** The loaded Timed Events, events that run from a seconds to b seconds */
     private final List<TimedEvent> events = new ArrayList<>();
+
+    /** The loaded one-off events, an event that runs once */
     private final List<TimedEvent> oneOffEvents = new ArrayList<>();
 
+    /** A list of configured auto routines */
     public enum AutoMode {
         /**
          * We only want the mobility points nothing else
@@ -43,8 +46,8 @@ public class Auto {
         Mobility
     }
 
-    // Add timed events using registerTimedEvent only in Init().
-    public void Init(AutoMode mode) {
+    /** Initialise autonomous with a given routine from the AutoMode list */
+    public void Init(AutoMode mode) {  // Add timed events using registerTimedEvent only in Init().
         // Register timed events
         switch (mode) {
             case Mobility:
@@ -87,13 +90,19 @@ public class Auto {
         }
     }
 
-    // Register an event that is fired each tick between start and end time.
+    /**
+     * Register an event that is fired each tick between start and end time.
+     * Multiple can run at the same time
+     */
     private void registerTimedEvent(double start, double end, Command func) {
         TimedEvent newEvent = new TimedEvent(start, end, func);
         events.add(newEvent);
     }
 
-    // Register an event that is fired once at the specified time.
+    /**
+     * Register an event that is fired once at the specified time.
+     * Can happen during a timed event.
+     */
     @SuppressWarnings("unused")  // May be used in the future
     private void registerOneOffEvent(double trigger, Command func) {
         TimedEvent newEvent = new TimedEvent(trigger, trigger, func);
