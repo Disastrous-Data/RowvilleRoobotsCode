@@ -6,7 +6,7 @@ This contains the IDs for each action.
 If you want to change control method you can change each reference to
 JoystickButtons to ControllerButtons and vice versa.
 
-Add any new actions to this class with their respective binding.
+Add any new actions to this class with their respective binding. 
 */
 
 package com.disastrousdata;
@@ -18,7 +18,11 @@ public enum Keybinds {
     INTAKE_TOGGLE(JoystickButtons.TRIGGER),
     INTAKE_READY(JoystickButtons.SIDE_BUTTON),
     ROLLER_CLAW_UP(JoystickButtons.TOP_LEFT_5),
-    ROLLER_CLAW_DOWN(JoystickButtons.BOTTOM_LEFT_3);
+    ROLLER_CLAW_DOWN(JoystickButtons.BOTTOM_LEFT_3),
+    GROUND_INTAKE_SWING_UP(JoystickButtons.BOTTOM_RIGHT_4),
+    GROUND_INTAKE_SWING_DOWN(JoystickButtons.TOP_RIGHT_6),
+    GROUND_INTAKE_SPIN_IN(JoystickButtons.BASE_11),
+    GROUND_INTAKE_SPING_OUT(JoystickButtons.BASE_7);
 
     public final int buttonId;
 
