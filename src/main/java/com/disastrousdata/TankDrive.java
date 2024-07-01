@@ -23,6 +23,8 @@ public class TankDrive {
     public MotorController IntakeBottom;
 
     public MotorController RollerClaw;
+    public MotorController GroundIntakeSwing;
+    public MotorController GroundIntakeSpin;
 
     public Pneumatics Pneumatics;
     public Joystick Controller;
@@ -45,7 +47,9 @@ public class TankDrive {
         IntakeBottom = hardware.BottomIntakeMotor;
 
         RollerClaw = hardware.RollerClaw;
-
+        GroundIntakeSwing = hardware.GroundIntakeSwing;
+        GroundIntakeSpin = hardware.GroundIntakeSpin;
+        
         Pneumatics = new Pneumatics(hardware.Solenoid);
         Controller = hardware.Controller;
     }

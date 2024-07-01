@@ -104,6 +104,25 @@ public class Teleop {
         // | ALL CODE GOES AFTER THIS SO THAT BUTTONS WORK     |
         // |---------------------------------------------------|
 
+
+        // Ground Intake Swing
+        if (isPressed(Keybinds.GROUND_INTAKE_SWING_UP)) {
+            drive.GroundIntakeSwing.set(0.5);
+        } else if (isPressed(Keybinds.GROUND_INTAKE_SWING_DOWN)) {
+            drive.GroundIntakeSwing.set(-0.5);
+        } else {
+            drive.GroundIntakeSwing.set(0);
+        }
+
+        // Ground Intake Spin
+        if (isPressed(Keybinds.GROUND_INTAKE_SPIN_IN)) {
+            drive.GroundIntakeSpin.set(0.5);
+        } else if (isPressed(Keybinds.GROUND_INTAKE_SPING_OUT)) {
+            drive.GroundIntakeSpin.set(-0.5);
+        } else {
+            drive.GroundIntakeSpin.set(0);
+        }
+
         // Intake control
         if (wasJustPressed(Keybinds.INTAKE_TOGGLE)) {
             if (hasGamePiece) {  // Shoot it
