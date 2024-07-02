@@ -38,7 +38,7 @@ public class Hardware {
     public WPI_TalonSRX TopIntakeMotor;
     public WPI_TalonSRX BottomIntakeMotor;
 
-    public CANSparkMax RollerClaw;
+    public WPI_TalonSRX RollerClaw;
     public CANSparkMax GroundIntakeSwing;
     public WPI_TalonSRX GroundIntakeSpin;
 
@@ -70,11 +70,11 @@ public class Hardware {
         TopIntakeMotor = new WPI_TalonSRX(7);
         BottomIntakeMotor = new WPI_TalonSRX(5);
 
-        RollerClaw = new CANSparkMax(8, MotorType.kBrushed);
+        RollerClaw = new WPI_TalonSRX(2);
 
         // Ground intake (not shooter)
         GroundIntakeSwing = new CANSparkMax(8, MotorType.kBrushed);
-        GroundIntakeSpin = new WPI_TalonSRX(9);
+        GroundIntakeSpin = new WPI_TalonSRX(12);
 
         // Controller stuff
         Controller = new Joystick(0);
