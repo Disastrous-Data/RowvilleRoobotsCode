@@ -1,7 +1,38 @@
 {
+  "HALProvider": {
+    "Other Devices": {
+      "SPARK MAX [8]": {
+        "header": {
+          "open": true
+        }
+      },
+      "Talon SRX[12]": {
+        "header": {
+          "open": true
+        }
+      },
+      "Talon SRX[13]": {
+        "header": {
+          "open": true
+        }
+      },
+      "Talon SRX[2]": {
+        "header": {
+          "open": true
+        }
+      }
+    }
+  },
   "NTProvider": {
     "types": {
-      "/FMSInfo": "FMSInfo"
+      "/FMSInfo": "FMSInfo",
+      "/SmartDashboard/Auto Mode": "String Chooser"
     }
+  },
+  "NetworkTables Info": {
+    "Connections": {
+      "open": true
+    },
+    "visible": true
   }
 }

@@ -16,6 +16,7 @@ package com.disastrousdata;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.kauailabs.navx.frc.AHRS;
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMaxLowLevel;
 import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import edu.wpi.first.wpilibj.*;
@@ -60,21 +61,21 @@ public class Hardware {
     //public DigitalInput LimitSwitch;
     public AHRS NavX;
 
-    public void Init() {  // Arm: 2,4 Intake: 5,7
+    public void Init() {  // Arm: 2,4 Intake: 5,7, RollerCLaw: 4, GroundIntake: 5, 2,
         RightMotor1 = new CANSparkMax(1, MotorType.kBrushed);
         RightMotor2 = new CANSparkMax(2, MotorType.kBrushed);
         LeftMotor1 = new CANSparkMax(3, MotorType.kBrushed);
-
         LeftMotor2 = new CANSparkMax(4, MotorType.kBrushed);
 
+        // Shooter
         TopIntakeMotor = new WPI_TalonSRX(7);
         BottomIntakeMotor = new WPI_TalonSRX(5);
 
-        RollerClaw = new WPI_TalonSRX(2);
+        RollerClaw = new WPI_TalonSRX(4);
 
         // Ground intake (not shooter)
-        GroundIntakeSwing = new CANSparkMax(8, MotorType.kBrushed);
-        GroundIntakeSpin = new WPI_TalonSRX(12);
+        GroundIntakeSwing = new CANSparkMax(5, MotorType.kBrushed);
+        GroundIntakeSpin = new WPI_TalonSRX(2);
 
         // Controller stuff
         Controller = new Joystick(0);

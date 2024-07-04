@@ -10,8 +10,8 @@ package com.disastrousdata;
 
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.cameraserver.CameraServer;
-import edu.wpi.first.cscore.UsbCamera;
+//import edu.wpi.first.cameraserver.CameraServer;
+//import edu.wpi.first.cscore.UsbCamera;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 
 public class Robot extends TimedRobot {
@@ -31,8 +31,8 @@ public class Robot extends TimedRobot {
         drive.Init(hardware);
 
         // Starts camera server for usb camera plugged into RoboRIO, pushes to dashboard(s).
-        UsbCamera camera1 = CameraServer.startAutomaticCapture(0);
-        camera1.setFPS(60);
+        //UsbCamera camera1 = CameraServer.startAutomaticCapture(0);
+        //camera1.setFPS(60);
 
         // Choices because freedom
         autoMode = new SendableChooser<>();

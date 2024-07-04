@@ -47,6 +47,7 @@ public class TankDrive {
         IntakeBottom = hardware.BottomIntakeMotor;
 
         RollerClaw = hardware.RollerClaw;
+
         GroundIntakeSwing = hardware.GroundIntakeSwing;
         GroundIntakeSpin = hardware.GroundIntakeSpin;
         
@@ -106,6 +107,14 @@ public class TankDrive {
 
     public void SetRollerClawPower(double s) {
         RollerClaw.set(s);
+    }
+
+    public void SetGroundIntakeSwing(double s) {
+        GroundIntakeSwing.set(s);
+    }
+
+    public void SetGroundIntakeSpin(double s) {
+        GroundIntakeSpin.set(s);
     }
 
     @SuppressWarnings("unused")  // May be used in future

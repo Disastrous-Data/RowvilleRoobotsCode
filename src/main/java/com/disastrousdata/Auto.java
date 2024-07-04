@@ -52,6 +52,7 @@ public class Auto {
         switch (mode) {
             case Mobility:
                 // Go onto the start of the charge station
+                //Anomous Lambda - unnamed function
                 registerTimedEvent(0,3, (drive, states) -> {
                     states.LeftDriveMotors = 0.6;
                     states.RightDriveMotors = 0.6;
