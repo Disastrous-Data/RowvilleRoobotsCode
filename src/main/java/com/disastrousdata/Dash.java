@@ -26,6 +26,10 @@ public class Dash {
         SmartDashboard.putBoolean(key, value);
     }
 
+    public static double get(String key) {
+        return SmartDashboard.getNumber(key, 0);
+    }
+
     public static void putData(String key, Sendable value) {
         SmartDashboard.putData(key, value);
     }

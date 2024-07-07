@@ -107,18 +107,18 @@ public class Teleop {
 
         // Ground Intake Swing
         if (isPressed(Keybinds.GROUND_INTAKE_SWING_UP)) {
-            drive.GroundIntakeSwing.set(0.5);
+            drive.GroundIntakeSwing.set(0.2);
         } else if (isPressed(Keybinds.GROUND_INTAKE_SWING_DOWN)) {
-            drive.GroundIntakeSwing.set(-0.5);
+            drive.GroundIntakeSwing.set(-0.2);
         } else {
             drive.GroundIntakeSwing.set(0);
         }
 
         // Ground Intake Spin
         if (isPressed(Keybinds.GROUND_INTAKE_SPIN_IN)) {
-            drive.GroundIntakeSpin.set(0.5);
+            drive.GroundIntakeSpin.set(1);
         } else if (isPressed(Keybinds.GROUND_INTAKE_SPING_OUT)) {
-            drive.GroundIntakeSpin.set(-0.5);
+            drive.GroundIntakeSpin.set(-1);
         } else {
             drive.GroundIntakeSpin.set(0);
         }
@@ -166,6 +166,7 @@ public class Teleop {
         drive.Update(states);  // PUT MOVEMENT CODE BEFORE THIS LINE
         Dash.set("outputCurrent", drive.Hardware.LeftMotor2.getOutputCurrent());
         Dash.set("isStalled", drive.Hardware.LeftMotor2.getOutputCurrent() > stallThreshHold);
+        Dash.set("intakeAngle", drive.Hardware.IntakeEncoder.getAbsolutePosition());
         //Dash.set("isLimitSwitch", drive.Hardware.LimitSwitch.get());
     }
 

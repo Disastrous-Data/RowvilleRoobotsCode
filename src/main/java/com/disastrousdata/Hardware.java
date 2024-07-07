@@ -60,6 +60,7 @@ public class Hardware {
     // ==========================
     //public DigitalInput LimitSwitch;
     public AHRS NavX;
+    public DutyCycleEncoder IntakeEncoder;
 
     public void Init() {  // Arm: 2,4 Intake: 5,7, RollerCLaw: 4, GroundIntake: 5, 2,
         RightMotor1 = new CANSparkMax(1, MotorType.kBrushed);
@@ -74,7 +75,10 @@ public class Hardware {
         RollerClaw = new WPI_TalonSRX(4);
 
         // Ground intake (not shooter)
-        GroundIntakeSwing = new CANSparkMax(5, MotorType.kBrushed);
+        GroundIntakeSwing = new CANSparkMax(5, MotorType.kBrushless);
+       // GroundIntakeSwing.setSmartCurrentLimit(20);
+        GroundIntakeSwing.setIdleMode(IdleMode.kBrake);
+
         GroundIntakeSpin = new WPI_TalonSRX(2);
 
         // Controller stuff
@@ -96,6 +100,7 @@ public class Hardware {
 
         //LimitSwitch = new DigitalInput(9);
         NavX = new AHRS();
+        IntakeEncoder = new DutyCycleEncoder(0);
     }
 
     public void Reset() {

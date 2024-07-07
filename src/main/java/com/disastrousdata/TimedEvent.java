@@ -14,11 +14,15 @@ public class TimedEvent {
     public double StartTime;
     public double EndTime;
     public Command Method;
+    public boolean Complete;
 
     public TimedEvent(double start, double end, Command func) {
         StartTime = start;
         EndTime = end;
         Method = func;
     }
-    
+
+    public void MarkComplete() {
+        Complete = true;
+    }
 }
