@@ -166,7 +166,7 @@ public class Teleop {
         drive.Update(states);  // PUT MOVEMENT CODE BEFORE THIS LINE
         Dash.set("outputCurrent", drive.Hardware.LeftMotor2.getOutputCurrent());
         Dash.set("isStalled", drive.Hardware.LeftMotor2.getOutputCurrent() > stallThreshHold);
-        Dash.set("intakeAngle", drive.Hardware.IntakeEncoder.getAbsolutePosition());
+        //Dash.set("intakeAngle", drive.Hardware.IntakeEncoder.getAbsolutePosition());
         //Dash.set("isLimitSwitch", drive.Hardware.LimitSwitch.get());
     }
 

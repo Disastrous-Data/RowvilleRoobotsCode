@@ -57,7 +57,7 @@ public class Robot extends TimedRobot {
 
     @Override
     public void autonomousInit() {
-        auto.Init(Auto.AutoMode.values()[autoMode.getSelected()]);  // Must init here because this is when we pick what auto we are doing
+        auto.Init(Auto.AutoMode.values()[0]);//autoMode.getSelected()]);  // Must init here because this is when we pick what auto we are doing
         autoStartTime = Timer.getFPGATimestamp();
     }
 

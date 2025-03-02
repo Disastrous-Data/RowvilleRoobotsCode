@@ -14,12 +14,12 @@ checks to be made on the values being set to the motors.
 package com.disastrousdata;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
-import com.kauailabs.navx.frc.AHRS;
-import com.revrobotics.CANSparkMax;
-import com.revrobotics.CANSparkMaxLowLevel;
-import com.revrobotics.CANSparkBase.IdleMode;
-import com.revrobotics.CANSparkLowLevel.MotorType;
+import com.revrobotics.spark.SparkMax;
+import com.revrobotics.spark.SparkLowLevel.MotorType;
+import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
+
 import edu.wpi.first.wpilibj.*;
+import edu.wpi.first.wpilibj.motorcontrol.Spark;
 
 public class Hardware {
 
@@ -27,11 +27,11 @@ public class Hardware {
     // ==========================
     //         Drive Motors
     // ==========================
-    public CANSparkMax RightMotor1;
-    public CANSparkMax RightMotor2;
+    public SparkMax RightMotor1;
+    public SparkMax RightMotor2;
 
-    public CANSparkMax LeftMotor1;
-    public CANSparkMax LeftMotor2;
+    public SparkMax LeftMotor1;
+    public SparkMax LeftMotor2;
 
     // ==========================
     //        Other Motors
@@ -40,7 +40,7 @@ public class Hardware {
     public WPI_TalonSRX BottomIntakeMotor;
 
     public WPI_TalonSRX RollerClaw;
-    public CANSparkMax GroundIntakeSwing;
+    public SparkMax GroundIntakeSwing;
     public WPI_TalonSRX GroundIntakeSpin;
 
     // ==========================
@@ -59,14 +59,14 @@ public class Hardware {
     //           Sensors
     // ==========================
     //public DigitalInput LimitSwitch;
-    public AHRS NavX;
+    // public AHRS NavX;
     public DutyCycleEncoder IntakeEncoder;
 
     public void Init() {  // Arm: 2,4 Intake: 5,7, RollerCLaw: 4, GroundIntake: 5, 2,
-        RightMotor1 = new CANSparkMax(1, MotorType.kBrushed);
-        RightMotor2 = new CANSparkMax(2, MotorType.kBrushed);
-        LeftMotor1 = new CANSparkMax(3, MotorType.kBrushed);
-        LeftMotor2 = new CANSparkMax(4, MotorType.kBrushed);
+        RightMotor1 = new SparkMax(1, MotorType.kBrushed);
+        RightMotor2 = new SparkMax(2, MotorType.kBrushed);
+        LeftMotor1 = new SparkMax(3, MotorType.kBrushed);
+        LeftMotor2 = new SparkMax(4, MotorType.kBrushed);
 
         // Shooter
         TopIntakeMotor = new WPI_TalonSRX(7);
@@ -75,9 +75,9 @@ public class Hardware {
         RollerClaw = new WPI_TalonSRX(4);
 
         // Ground intake (not shooter)
-        GroundIntakeSwing = new CANSparkMax(5, MotorType.kBrushless);
+        GroundIntakeSwing = new SparkMax(5, MotorType.kBrushless);
        // GroundIntakeSwing.setSmartCurrentLimit(20);
-        GroundIntakeSwing.setIdleMode(IdleMode.kBrake);
+        // GroundIntakeSwing.setIdleMode(IdleMode.kBrake);
 
         GroundIntakeSpin = new WPI_TalonSRX(2);
 
@@ -90,16 +90,16 @@ public class Hardware {
         LeftMotor1.setInverted(false);
         LeftMotor2.setInverted(false);
 
-        RightMotor2.setIdleMode(IdleMode.kBrake);
-        RightMotor1.setIdleMode(IdleMode.kBrake);
-        LeftMotor1.setIdleMode(IdleMode.kBrake);
-        LeftMotor2.setIdleMode(IdleMode.kBrake);
+        // RightMotor2.setIdleMode(IdleMode.kBrake);
+        // RightMotor1.setIdleMode(IdleMode.kBrake);
+        // LeftMotor1.setIdleMode(IdleMode.kBrake);
+        // LeftMotor2.setIdleMode(IdleMode.kBrake);
 
         //AirCompressor = new Compressor(PneumaticsModuleType.REVPH);
         //Solenoid = new DoubleSolenoid(PneumaticsModuleType.REVPH, 0, 1);
 
         //LimitSwitch = new DigitalInput(9);
-        NavX = new AHRS();
+        // NavX = new AHRS();
         IntakeEncoder = new DutyCycleEncoder(0);
     }
 
