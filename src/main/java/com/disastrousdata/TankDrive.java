@@ -16,110 +16,55 @@ import edu.wpi.first.wpilibj.motorcontrol.MotorController;
 // Main class for controlling the robot, all robot functions should use this.
 public class TankDrive {
 
-    private MotorController[] LeftMotors;
-    private MotorController[] RightMotors;
+    private MotorController[] leftMotors;
+    private MotorController[] rightMotors;
 
-    public MotorController IntakeTop;
-    public MotorController IntakeBottom;
+    public MotorController intake;
 
-    public MotorController RollerClaw;
-    public MotorController GroundIntakeSwing;
-    public MotorController GroundIntakeSpin;
+    public Joystick controller;
 
-    public Pneumatics Pneumatics;
-    public Joystick Controller;
-
-    public Hardware Hardware;
+    public Hardware hardware;
 
     // Hardware should be initialized before this is called. This is called in Hardware.java.
-    public void Init(Hardware hardware) {
-        Hardware = hardware;
-        LeftMotors = new MotorController[] {
-            hardware.LeftMotor1,
-            hardware.LeftMotor2
+    public void init(Hardware hardware) {
+        this.hardware = hardware;
+        leftMotors = new MotorController[] {
+            hardware.leftMotor1,
+            hardware.leftMotor2
         };
-        RightMotors = new MotorController[] {
-            hardware.RightMotor1,
-            hardware.RightMotor2
+        rightMotors = new MotorController[] {
+            hardware.rightMotor1,
+            hardware.rightMotor2
         };
 
-        IntakeTop = hardware.TopIntakeMotor;
-        IntakeBottom = hardware.BottomIntakeMotor;
-
-        RollerClaw = hardware.RollerClaw;
-
-        GroundIntakeSwing = hardware.GroundIntakeSwing;
-        GroundIntakeSpin = hardware.GroundIntakeSpin;
-        
-        Pneumatics = new Pneumatics(hardware.Solenoid);
-        Controller = hardware.Controller;
+        intake = hardware.intake;
+        controller = hardware.controller;
     }
 
-    public void Update(HardwareStates states) {
-        // Drive
-        SetLeftDrive(states.LeftDriveMotors);
-        SetRightDrive(states.RightDriveMotors);
+    public void update(HardwareStates states) {
+        setLeftDrive(states.getLeftDriveMotors());
+        setRightDrive(states.getRightDriveMotors());
     }
 
-    public void SetLeftDrive(double s) {
-        for (MotorController c : LeftMotors) {
+    public void setLeftDrive(double s) {
+        for (MotorController c : leftMotors) {
             c.set(s);
         }
     }
 
-    public void SetRightDrive(double s) {
-        for (MotorController c : RightMotors) {
+    public void setRightDrive(double s) {
+        for (MotorController c : rightMotors) {
             c.set(s);
         }
     }
 
-    public enum IntakeMode {
-        OFF,
-        INTAKE,
-        CHARGE,
-        SHOOT
-    }
-
-    public void SetIntakeMode(IntakeMode mode) {
-        switch (mode) {
-            case OFF:
-                IntakeTop.set(0);
-                IntakeBottom.set(0);
-                Dash.set("intakemode", "off");
-                break;
-            case INTAKE:
-                IntakeTop.set(-0.3);
-                IntakeBottom.set(-0.3);
-                Dash.set("intakemode", "intake");
-                break;
-            case CHARGE:
-                IntakeTop.set(1);
-                IntakeBottom.set(0);
-                Dash.set("intakemode", "charge");
-                break;
-            case SHOOT:
-                IntakeTop.set(1);
-                IntakeBottom.set(1);
-                Dash.set("intakemode", "shoot");
-                break;
-        }
-    }
-
-    public void SetRollerClawPower(double s) {
-        RollerClaw.set(s);
-    }
-
-    public void SetGroundIntakeSwing(double s) {
-        GroundIntakeSwing.set(s);
-    }
-
-    public void SetGroundIntakeSpin(double s) {
-        GroundIntakeSpin.set(s);
+    public void setIntakePower(double s) {
+        intake.set(s);
     }
 
     @SuppressWarnings("unused")  // May be used in future
-    public void Stop() {
-        Hardware.Reset();
+    public void stop() {
+        hardware.reset();
     }
     
 }

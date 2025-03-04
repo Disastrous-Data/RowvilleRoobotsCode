@@ -10,7 +10,7 @@ DO NOT EVER CHANGE THIS, unless you have a very good reason
 
 package com.disastrousdata.controllers;
 
-public enum JoystickButtons implements Controller {
+public enum Joystick implements Controller {
     TRIGGER(1),
     SIDE_BUTTON(2),
     BOTTOM_LEFT_3(3),
@@ -26,7 +26,7 @@ public enum JoystickButtons implements Controller {
 
     public final int buttonId;
 
-    JoystickButtons(int id) {
+    Joystick(int id) {
         this.buttonId = id;
     }
 

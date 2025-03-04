@@ -19,6 +19,8 @@ You can also add variables to the state variables section to keep track of thing
 
 package com.disastrousdata;
 
+import edu.wpi.first.wpilibj.motorcontrol.MotorController;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -28,7 +30,7 @@ public class Teleop {
     // Constants
 
     /** Sometimes the joystick un-calibrates itself so use this to offset the raw input */
-    private static final double axis0Offset = -0.02;
+    private static final double axis0Offset = 0;
 
     /** Sometimes the joystick un-calibrates itself so use this to offset the raw input */
     private static final double axis1Offset = 0;
@@ -49,10 +51,6 @@ public class Teleop {
     private final List<Integer> justPressed = new ArrayList<>();
     private final List<Integer> pressedButtons = new ArrayList<>();
 
-    // STATE VARIABLES
-    private boolean isIntakeOn = false;
-    private boolean hasGamePiece = false;
-
     /**
      * Gets whether the specified bind was pressed on that 'frame'.
      * <p>
@@ -60,13 +58,26 @@ public class Teleop {
      * the condition will be true exactly once, until the button
      * is repressed.
      */
-    private boolean wasJustPressed(Keybinds bind) {
+    private boolean wasJustPressed(Keybind bind) {
         return justPressed.contains(bind.buttonId);
     }
 
     /** Gets whether the button is being currently pressed */
-    private boolean isPressed(Keybinds bind) {
+    private boolean isPressed(Keybind bind) {
         return pressedButtons.contains(bind.buttonId);
+    }
+
+    /// <summary>
+    /// Controls a motor based on the input of two buttons.
+    /// </summary>
+    private void motorControls(Keybind pos, Keybind neg, MotorController motor, double speed) {
+        if (isPressed(pos)) {
+            motor.set(speed);
+        } else if (isPressed(neg)) {
+            motor.set(-speed);
+        } else {
+            motor.set(0);
+        }
     }
 
     /**
@@ -75,7 +86,7 @@ public class Teleop {
      * `time` is the elapsed seconds since teleop began.
      * `drive` is the TankDrive object used to control the robot.
      */
-    public void Invoke(TankDrive drive, double time) {
+    public void invoke(TankDrive drive, double time) {
         HardwareStates states = new HardwareStates();
 
         // This tracks the time since the last tick
@@ -88,7 +99,7 @@ public class Teleop {
         justPressed.clear();
         pressedButtons.clear();
         for (int id : buttonIds) {
-            boolean buttonState = drive.Controller.getRawButton(id);
+            boolean buttonState = drive.controller.getRawButton(id);
             boolean lastButtonState = lastButtonStates.getOrDefault(id, false);
             if (buttonState && !lastButtonState) {
                 justPressed.add(id);
@@ -104,70 +115,24 @@ public class Teleop {
         // | ALL CODE GOES AFTER THIS SO THAT BUTTONS WORK     |
         // |---------------------------------------------------|
 
-
-        // Ground Intake Swing
-        if (isPressed(Keybinds.GROUND_INTAKE_SWING_UP)) {
-            drive.GroundIntakeSwing.set(0.2);
-        } else if (isPressed(Keybinds.GROUND_INTAKE_SWING_DOWN)) {
-            drive.GroundIntakeSwing.set(-0.2);
-        } else {
-            drive.GroundIntakeSwing.set(0);
-        }
-
-        // Ground Intake Spin
-        if (isPressed(Keybinds.GROUND_INTAKE_SPIN_IN)) {
-            drive.GroundIntakeSpin.set(1);
-        } else if (isPressed(Keybinds.GROUND_INTAKE_SPING_OUT)) {
-            drive.GroundIntakeSpin.set(-1);
-        } else {
-            drive.GroundIntakeSpin.set(0);
-        }
-
-        // Intake control
-        if (wasJustPressed(Keybinds.INTAKE_TOGGLE)) {
-            if (hasGamePiece) {  // Shoot it
-                hasGamePiece = false;
-                drive.SetIntakeMode(TankDrive.IntakeMode.SHOOT);
-            } else {  // Toggle intake mode
-                isIntakeOn = !isIntakeOn;
-                drive.SetIntakeMode(isIntakeOn ? TankDrive.IntakeMode.INTAKE : TankDrive.IntakeMode.OFF);
-            }
-        }
-
-        if (wasJustPressed(Keybinds.INTAKE_READY)) {  // TODO: Check Game piece detected with line break/limit switch
-            hasGamePiece = true;
-            Dash.set("hasGamePiece", true);
-            drive.SetIntakeMode(TankDrive.IntakeMode.CHARGE);
-        } else {
-            Dash.set("hasGamePiece", false);
-        }
-
-        // Roller claw control (The thing that puts note in amp)
-        final double RollerClawSpeed = 0.5;
-        if (isPressed(Keybinds.ROLLER_CLAW_UP)) {
-            drive.SetRollerClawPower(RollerClawSpeed);
-        } else if (isPressed(Keybinds.ROLLER_CLAW_DOWN)) {
-            drive.SetRollerClawPower(-RollerClawSpeed);
-        } else {
-            drive.SetRollerClawPower(0);
-        }
+        // Intake, the thing that ejects the pipe
+        final double INTAKE_SPEED = 0.5;
+        motorControls(Keybind.INTAKE_IN, Keybind.INTAKE_OUT, drive.intake, INTAKE_SPEED);
 
         // Drive
-        double fb = drive.Controller.getY() + axis1Offset / 2;
-        double lr = drive.Controller.getX() + axis0Offset / 2;
+        double fb = drive.controller.getY() + axis1Offset / 2;
+        double lr = drive.controller.getX() + axis0Offset / 2;
         lr = lr * 0.5;
         double leftDriveValue = fb - lr;
         double rightDriveValue = fb + lr;
 
-        states.LeftDriveMotors = leftDriveValue;
-        states.RightDriveMotors = rightDriveValue;
+        states.setLeftDriveMotors(leftDriveValue);
+        states.setRightDriveMotors(rightDriveValue);
 
         // Apply values and dump debug info
-        drive.Update(states);  // PUT MOVEMENT CODE BEFORE THIS LINE
-        Dash.set("outputCurrent", drive.Hardware.LeftMotor2.getOutputCurrent());
-        Dash.set("isStalled", drive.Hardware.LeftMotor2.getOutputCurrent() > stallThreshHold);
-        //Dash.set("intakeAngle", drive.Hardware.IntakeEncoder.getAbsolutePosition());
-        //Dash.set("isLimitSwitch", drive.Hardware.LimitSwitch.get());
+        drive.update(states);  // PUT MOVEMENT CODE BEFORE THIS LINE
+        Dash.set("outputCurrent", drive.hardware.leftMotor2.getOutputCurrent());
+        Dash.set("isStalled", drive.hardware.leftMotor2.getOutputCurrent() > stallThreshHold);
     }
 
 }

@@ -22,8 +22,6 @@ package com.disastrousdata;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.disastrousdata.TankDrive.IntakeMode;
-
 public class Auto {
     /** The loaded Timed Events, events that run from a seconds to b seconds */
     private final List<TimedEvent> events = new ArrayList<>();
@@ -50,51 +48,30 @@ public class Auto {
         /**
          * Mobility but slower.
          */
-        SlowMobility,
-
-        /**
-         * Fire a note in auto.
-         */
-        Shoot
+        SlowMobility
     }
 
     /** Initialise autonomous with a given routine from the AutoMode list */
-    public void Init(AutoMode mode) {  // Add timed events using registerTimedEvent only in Init().
+    public void init(AutoMode mode) {  // Add timed events using registerTimedEvent only in Init().
         // Register timed events
         switch (mode) {
             case Mobility:
                 // Go onto the start of the charge station
-                //Anomous Lambda - unnamed function
+                // Anonymous Lambda - unnamed function
                 registerTimedEvent(0,3, (drive, states) -> {
-                    states.LeftDriveMotors = 0.6;
-                    states.RightDriveMotors = 0.6 - Dash.get("leftBias");
-                    Dash.set("effectiveRightMotor", states.RightDriveMotors);
+                    states.setLeftDriveMotors(0.6);
+                    states.setRightDriveMotors(0.6 - Dash.get("leftBias"));
+                    Dash.set("effectiveRightMotor", states.getRightDriveMotors());
                     return states;
                 });
                 break;
             
             case SlowMobility:
                 // Go onto the start of the charge station
-                //Anomous Lambda - unnamed function
+                // Anonymous Lambda - unnamed function
                 registerTimedEvent(0,6, (drive, states) -> {
-                    states.LeftDriveMotors = 0.3;
-                    states.RightDriveMotors = 0.3;
-                    return states;
-                });
-                break;
-
-            case Shoot:
-                // Charge and fire
-                registerOneOffEvent(0, (drive, states) -> {
-                    drive.SetIntakeMode(IntakeMode.CHARGE);
-                    return states;
-                });
-                registerOneOffEvent(2, (drive, states) -> {
-                    drive.SetIntakeMode(IntakeMode.SHOOT);
-                    return states;
-                });
-                registerOneOffEvent(4, (drive, states) -> {
-                    drive.SetIntakeMode(IntakeMode.OFF);
+                    states.setLeftDriveMotors(0.3);
+                    states.setRightDriveMotors(0.3);
                     return states;
                 });
                 break;
@@ -107,32 +84,32 @@ public class Auto {
     
     // Invoked periodically during Auto, don't modify this method. Use registerTimedEvent in the init()
     // function instead to set the auto routine.
-    public void Invoke(AutoState state) {
+    public void invoke(AutoState state) {
         Dash.set("AutoTimer", state.timeElapsed);
         boolean didDoSomething = false;
         for (TimedEvent event : events) {
-            if (state.timeElapsed >= event.StartTime && state.timeElapsed <= event.EndTime) {
-                HardwareStates states = event.Method.Execute(state.drive, new HardwareStates());
-                state.drive.Update(states);
+            if (state.timeElapsed >= event.startTime && state.timeElapsed <= event.endTime) {
+                HardwareStates states = event.method.execute(state.drive, new HardwareStates());
+                state.drive.update(states);
                 didDoSomething = true;
             }
         }
         synchronized (oneOffEvents) {
             for (TimedEvent oneOffEvent : oneOffEvents) {
-                if (oneOffEvent.Complete) {
+                if (oneOffEvent.complete) {
                     continue;  // Don't run completed events
                 }
-                if (oneOffEvent.StartTime <= state.timeElapsed) {
-                    HardwareStates states = oneOffEvent.Method.Execute(state.drive, new HardwareStates());
-                    state.drive.Update(states);
-                    oneOffEvent.MarkComplete();
+                if (oneOffEvent.startTime <= state.timeElapsed) {
+                    HardwareStates states = oneOffEvent.method.execute(state.drive, new HardwareStates());
+                    state.drive.update(states);
+                    oneOffEvent.markComplete();
                     didDoSomething = true;
                 }
             }
         }
         
         if (!didDoSomething) {
-            state.drive.Update(new HardwareStates());
+            state.drive.update(new HardwareStates());
         }
     }
 

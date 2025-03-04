@@ -27,8 +27,8 @@ public class Robot extends TimedRobot {
     @Override
     public void robotInit() {
         // Load all hardware and subsystems.
-        hardware.Init();
-        drive.Init(hardware);
+        hardware.init();
+        drive.init(hardware);
 
         // Starts camera server for usb camera plugged into RoboRIO, pushes to dashboard(s).
         //UsbCamera camera1 = CameraServer.startAutomaticCapture(0);
@@ -42,7 +42,7 @@ public class Robot extends TimedRobot {
         }
 
         Dash.putData("Auto Mode", autoMode);
-        Dash.set("leftBias", 0.06);
+        Dash.set("leftBias", 0);
     }
 
     @Override
@@ -52,12 +52,13 @@ public class Robot extends TimedRobot {
 
     @Override
     public void teleopPeriodic() {
-        teleop.Invoke(drive, Timer.getFPGATimestamp() - teleopStartTime);
+        teleop.invoke(drive, Timer.getFPGATimestamp() - teleopStartTime);
     }
 
     @Override
     public void autonomousInit() {
-        auto.Init(Auto.AutoMode.values()[0]);//autoMode.getSelected()]);  // Must init here because this is when we pick what auto we are doing
+        Integer selection = autoMode.getSelected();  // Will be null if dashboard hasn't started or got reset
+        auto.init(Auto.AutoMode.values()[selection == null ? 0 : selection]);  // Must init here because this is when we pick what auto we are doing
         autoStartTime = Timer.getFPGATimestamp();
     }
 
@@ -66,7 +67,7 @@ public class Robot extends TimedRobot {
         AutoState state = new AutoState();
         state.drive = drive;
         state.timeElapsed = Timer.getFPGATimestamp() - autoStartTime;
-        auto.Invoke(state);
+        auto.invoke(state);
     }
 
 }

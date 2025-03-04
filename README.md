@@ -1,5 +1,5 @@
 # Disastrous Data Robot Code
-This is the codebase for our 2024 robot for FRC.
+This is the codebase for our 2025 robot for FRC.
 It is written in Java and uses the WPILib library.
 
 ## Contributing

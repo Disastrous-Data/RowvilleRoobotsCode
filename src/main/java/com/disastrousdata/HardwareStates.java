@@ -12,6 +12,22 @@ Add any new hardware to this class.
 package com.disastrousdata;
 
 public class HardwareStates {
-    public double LeftDriveMotors = 0;
-    public double RightDriveMotors = 0;
+    private double leftDriveMotors = 0;
+    private double rightDriveMotors = 0;
+
+    public double getLeftDriveMotors() {
+        return leftDriveMotors;
+    }
+
+    public void setLeftDriveMotors(double leftDriveMotors) {
+        this.leftDriveMotors = leftDriveMotors;
+    }
+
+    public double getRightDriveMotors() {
+        return rightDriveMotors;
+    }
+
+    public void setRightDriveMotors(double rightDriveMotors) {
+        this.rightDriveMotors = rightDriveMotors;
+    }
 }

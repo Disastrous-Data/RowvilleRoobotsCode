@@ -11,7 +11,7 @@ DO NOT EVER CHANGE THIS, unless you have a very good reason
 package com.disastrousdata.controllers;
 
 @SuppressWarnings("unused")  // Just in case
-public enum ControllerButtons implements Controller {
+public enum XBoxController implements Controller {
     A(0),
     B(1),
     X(2),
@@ -25,7 +25,7 @@ public enum ControllerButtons implements Controller {
 
     public final int buttonId;
 
-    ControllerButtons(int id) {
+    XBoxController(int id) {
         this.buttonId = id;
     }
 

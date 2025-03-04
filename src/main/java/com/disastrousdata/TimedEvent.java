@@ -11,18 +11,18 @@ Don't change this.
 package com.disastrousdata;
 
 public class TimedEvent {
-    public double StartTime;
-    public double EndTime;
-    public Command Method;
-    public boolean Complete;
+    public double startTime;
+    public double endTime;
+    public Command method;
+    public boolean complete;
 
     public TimedEvent(double start, double end, Command func) {
-        StartTime = start;
-        EndTime = end;
-        Method = func;
+        startTime = start;
+        endTime = end;
+        method = func;
     }
 
-    public void MarkComplete() {
-        Complete = true;
+    public void markComplete() {
+        complete = true;
     }
 }
