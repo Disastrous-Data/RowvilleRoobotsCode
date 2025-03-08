@@ -43,6 +43,7 @@ public class Robot extends TimedRobot {
 
         Dash.putData("Auto Mode", autoMode);
         Dash.set("leftBias", 0);
+        Dash.set("ejectSpeed", 0.4);
     }
 
     @Override

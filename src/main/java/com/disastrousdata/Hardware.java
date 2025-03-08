@@ -61,10 +61,10 @@ public class Hardware {
 
         // Use new SparkMaxConfig type to configure parameters
         SparkBaseConfig driveConfig = new SparkMaxConfig().idleMode(SparkBaseConfig.IdleMode.kBrake);
-        rightMotor1.configure(driveConfig.inverted(true), SparkBase.ResetMode.kResetSafeParameters, SparkBase.PersistMode.kNoPersistParameters);
-        rightMotor2.configure(driveConfig.inverted(true), SparkBase.ResetMode.kResetSafeParameters, SparkBase.PersistMode.kNoPersistParameters);
-        leftMotor1.configure(driveConfig.inverted(false), SparkBase.ResetMode.kResetSafeParameters, SparkBase.PersistMode.kNoPersistParameters);
-        leftMotor2.configure(driveConfig.inverted(false), SparkBase.ResetMode.kResetSafeParameters, SparkBase.PersistMode.kNoPersistParameters);
+        rightMotor1.configure(driveConfig.inverted(false), SparkBase.ResetMode.kResetSafeParameters, SparkBase.PersistMode.kNoPersistParameters);
+        rightMotor2.configure(driveConfig.inverted(false), SparkBase.ResetMode.kResetSafeParameters, SparkBase.PersistMode.kNoPersistParameters);
+        leftMotor1.configure(driveConfig.inverted(true), SparkBase.ResetMode.kResetSafeParameters, SparkBase.PersistMode.kNoPersistParameters);
+        leftMotor2.configure(driveConfig.inverted(true), SparkBase.ResetMode.kResetSafeParameters, SparkBase.PersistMode.kNoPersistParameters);
     }
 
     /// <summary>

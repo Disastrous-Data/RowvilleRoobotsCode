@@ -116,15 +116,19 @@ public class Teleop {
         // |---------------------------------------------------|
 
         // Intake, the thing that ejects the pipe
-        final double INTAKE_SPEED = 0.5;
+        final double INTAKE_SPEED = Dash.get("ejectSpeed");
         motorControls(Keybind.INTAKE_IN, Keybind.INTAKE_OUT, drive.intake, INTAKE_SPEED);
+        states.setIntake(drive.intake.get());
 
         // Drive
         double fb = drive.controller.getY() + axis1Offset / 2;
         double lr = drive.controller.getX() + axis0Offset / 2;
-        lr = lr * 0.5;
+        lr = lr * -0.5;
         double leftDriveValue = fb - lr;
         double rightDriveValue = fb + lr;
+
+        Dash.set("leftMotor", leftDriveValue);
+        Dash.set("rightMotor", rightDriveValue);
 
         states.setLeftDriveMotors(leftDriveValue);
         states.setRightDriveMotors(rightDriveValue);

@@ -9,5 +9,5 @@ This exists so that you can override the Execute method in a lambda.
 package com.disastrousdata;
 
 public interface Command {
-    HardwareStates execute(TankDrive drive, HardwareStates states);
+    boolean execute(TankDrive drive, HardwareStates states);
 }
