@@ -18,6 +18,7 @@ public class TankDrive {
 
     private MotorController[] leftMotors;
     private MotorController[] rightMotors;
+    public MotorController Arm;
 
     public MotorController intake;
 
@@ -61,6 +62,11 @@ public class TankDrive {
 
     public void setIntakePower(double s) {
         intake.set(s);
+    }
+
+    // Front flap
+    public void setArmPower(double s) {
+        Arm.set(s);
     }
 
     @SuppressWarnings("unused")  // May be used in future

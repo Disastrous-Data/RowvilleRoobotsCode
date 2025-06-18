@@ -120,6 +120,8 @@ public class Teleop {
         motorControls(Keybind.INTAKE_IN, Keybind.INTAKE_OUT, drive.intake, INTAKE_SPEED);
         states.setIntake(drive.intake.get());
 
+        // states.setIntake(drive.hardware.controller.getRawAxis(3));
+
         // Drive
         double fb = drive.controller.getY() + axis1Offset / 2;
         double lr = drive.controller.getX() + axis0Offset / 2;
@@ -132,6 +134,14 @@ public class Teleop {
 
         states.setLeftDriveMotors(leftDriveValue);
         states.setRightDriveMotors(rightDriveValue);
+
+        // Front Flap
+        final double ARM_SPEED = 0.8;
+        if (isPressed(Keybind.ARM_UP)){
+            drive.setArmPower(ARM_SPEED);
+        }else if (isPressed(Keybind.ARM_DOWN)){
+            drive.setArmPower(-ARM_SPEED);
+        }
 
         // Apply values and dump debug info
         drive.update(states);  // PUT MOVEMENT CODE BEFORE THIS LINE

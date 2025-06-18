@@ -37,6 +37,7 @@ public class Hardware {
     //        Other Motors
     // ==========================
     public SparkMax intake;
+    public SparkMax ArmMotor; 
 
     // ==========================
     //         Controls
@@ -54,6 +55,9 @@ public class Hardware {
 
         // Intake
         intake = new SparkMax(5, MotorType.kBrushed);  // Spinny thing
+
+        // Front flap
+        ArmMotor = new SparkMax(6, MotorType.kBrushed); 
 
         // Controller stuff
         controller = new Joystick(0);
