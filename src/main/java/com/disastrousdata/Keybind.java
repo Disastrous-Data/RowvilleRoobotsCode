@@ -12,17 +12,17 @@ package com.disastrousdata;
 
 import com.disastrousdata.controllers.Controller;
 import com.disastrousdata.controllers.Joystick;
-import com.disastrousdata.controllers.XBoxController;
+//import com.disastrousdata.controllers.XBoxController;
 
-import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+//import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 public enum Keybind {
     INTAKE_IN(Joystick.TRIGGER),
     INTAKE_OUT(Joystick.SIDE_BUTTON),
 
     // Front flap
-    ARM_UP(Joystick.BASE_7),
-    ARM_DOWN(Joystick.BASE_8);
+    ARM_UP(Joystick.TOP_LEFT_5),
+    ARM_DOWN(Joystick.BOTTOM_LEFT_3);
 
     public final int buttonId;
 

@@ -15,10 +15,9 @@ import edu.wpi.first.wpilibj.motorcontrol.MotorController;
 
 // Main class for controlling the robot, all robot functions should use this.
 public class TankDrive {
-
     private MotorController[] leftMotors;
     private MotorController[] rightMotors;
-    public MotorController Arm;
+    public MotorController arm;
 
     public MotorController intake;
 
@@ -40,6 +39,7 @@ public class TankDrive {
 
         intake = hardware.intake;
         controller = hardware.controller;
+        arm = hardware.armMotor;
     }
 
     public void update(HardwareStates states) {
@@ -66,12 +66,11 @@ public class TankDrive {
 
     // Front flap
     public void setArmPower(double s) {
-        Arm.set(s);
+        arm.set(s);
     }
 
     @SuppressWarnings("unused")  // May be used in future
     public void stop() {
         hardware.reset();
     }
-    
 }

@@ -13,6 +13,8 @@ checks to be made on the values being set to the motors.
 
 package com.disastrousdata;
 
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.revrobotics.spark.SparkBase;
 import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
@@ -20,6 +22,7 @@ import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.config.SparkBaseConfig;
 import com.revrobotics.spark.config.SparkMaxConfig;
 import edu.wpi.first.wpilibj.*;
+import edu.wpi.first.wpilibj.motorcontrol.Talon;
 
 public class Hardware {
 
@@ -37,7 +40,7 @@ public class Hardware {
     //        Other Motors
     // ==========================
     public SparkMax intake;
-    public SparkMax ArmMotor; 
+    public WPI_TalonSRX armMotor;
 
     // ==========================
     //         Controls
@@ -57,7 +60,7 @@ public class Hardware {
         intake = new SparkMax(5, MotorType.kBrushed);  // Spinny thing
 
         // Front flap
-        ArmMotor = new SparkMax(6, MotorType.kBrushed); 
+        armMotor = new WPI_TalonSRX(7);
 
         // Controller stuff
         controller = new Joystick(0);
