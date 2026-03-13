@@ -40,7 +40,8 @@ public class Hardware {
     //        Other Motors
     // ==========================
     public SparkMax intake;
-    public WPI_TalonSRX armMotor;
+    //public Talon armMotor;
+    public SparkMax armMotor;
 
     // ==========================
     //         Controls
@@ -60,7 +61,10 @@ public class Hardware {
         intake = new SparkMax(5, MotorType.kBrushed);  // Spinny thing
 
         // Front flap
-        armMotor = new WPI_TalonSRX(7);
+        //armMotor = new Talon(9);
+        
+        //Shooter
+        armMotor = new SparkMax(6, MotorType.kBrushed);
 
         // Controller stuff
         controller = new Joystick(0);
@@ -68,10 +72,10 @@ public class Hardware {
 
         // Use new SparkMaxConfig type to configure parameters
         SparkBaseConfig driveConfig = new SparkMaxConfig().idleMode(SparkBaseConfig.IdleMode.kBrake);
-        rightMotor1.configure(driveConfig.inverted(false), SparkBase.ResetMode.kResetSafeParameters, SparkBase.PersistMode.kNoPersistParameters);
-        rightMotor2.configure(driveConfig.inverted(false), SparkBase.ResetMode.kResetSafeParameters, SparkBase.PersistMode.kNoPersistParameters);
-        leftMotor1.configure(driveConfig.inverted(true), SparkBase.ResetMode.kResetSafeParameters, SparkBase.PersistMode.kNoPersistParameters);
-        leftMotor2.configure(driveConfig.inverted(true), SparkBase.ResetMode.kResetSafeParameters, SparkBase.PersistMode.kNoPersistParameters);
+        rightMotor1.configure(driveConfig.inverted(true), SparkBase.ResetMode.kResetSafeParameters, SparkBase.PersistMode.kNoPersistParameters);
+        rightMotor2.configure(driveConfig.inverted(true), SparkBase.ResetMode.kResetSafeParameters, SparkBase.PersistMode.kNoPersistParameters);
+        leftMotor1.configure(driveConfig.inverted(false), SparkBase.ResetMode.kResetSafeParameters, SparkBase.PersistMode.kNoPersistParameters);
+        leftMotor2.configure(driveConfig.inverted(false), SparkBase.ResetMode.kResetSafeParameters, SparkBase.PersistMode.kNoPersistParameters);
     }
 
     /// <summary>

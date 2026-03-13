@@ -55,6 +55,16 @@ public class Auto {
          */
         ScoreCoral,
 
+        /**
+         * Drive forward and shoot ore loaded fuel
+         * Turn left or right if placed at sides
+         
+        ShootFuel_Straight,
+
+        ShootFuel_Left,
+
+        ShootFuel_Right,
+        */
         StallTest
     }
 
@@ -106,6 +116,11 @@ public class Auto {
                     return true;
                 });
 
+                registerTimedEvent(4, 6, (drive, states) -> {
+                    states.setFlap(-0.5);
+                    return true;
+                });
+
                 registerTimedEvent(7, 10, (drive, states) -> {
                     states.setIntake(Dash.get("ejectSpeed"));
                     return true;
@@ -126,7 +141,61 @@ public class Auto {
                     return true;
                 });
                 break;
+/* 
+            case ShootFuel_Straight:
+                // Check direction of auto positive or negative value
+                registerTimedEvent(0,3, (drive, states) -> {
+                    states.setLeftDriveMotors(-0.6);
+                    states.setRightDriveMotors(-0.6 + Dash.get("leftBias"));
+                    Dash.set("effectiveRightMotor", states.getRightDriveMotors());
+                    return true;
+                });
+                registerTimedEvent(3, 15, (drive, states) -> {
+                    states.setIntake(Dash.get("ejectSpeed"));
+                    return true;
+                });
+                break;
 
+            case ShootFuel_Left:
+                // Check direction of auto positive or negative value
+                registerTimedEvent(0,3, (drive, states) -> {
+                    states.setLeftDriveMotors(-0.6);
+                    states.setRightDriveMotors(-0.6 + Dash.get("leftBias"));
+                    Dash.set("effectiveRightMotor", states.getRightDriveMotors());
+                    return true;
+                });
+
+                registerTimedEvent(3,5, (drive, states) -> {
+                    states.setLeftDriveMotors(-0.3);
+                    return true;
+                });
+
+                registerTimedEvent(5, 15, (drive, states) -> {
+                    states.setIntake(Dash.get("ejectSpeed"));
+                    return true;
+                });
+                break;
+
+            case ShootFuel_Right:
+                // Check direction of auto positive or negative value
+                registerTimedEvent(0,3, (drive, states) -> {
+                    states.setLeftDriveMotors(-0.6);
+                    states.setRightDriveMotors(-0.6 + Dash.get("leftBias"));
+                    Dash.set("effectiveRightMotor", states.getRightDriveMotors());
+                    return true;
+                });
+
+                registerTimedEvent(3,5, (drive, states) -> {
+                    states.setRightDriveMotors(-0.3);
+                    return true;
+                });
+
+                registerTimedEvent(5, 15, (drive, states) -> {
+                    states.setIntake(Dash.get("ejectSpeed"));
+                    return true;
+                });
+                break;
+*/
             case StallTest:
                 // Left
                 registerTimedEvent(0, 100, (drive, states) -> {

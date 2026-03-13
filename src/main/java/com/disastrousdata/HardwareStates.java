@@ -16,6 +16,7 @@ public class HardwareStates {
     private double rightDriveMotors = 0;
 
     private double intake = 0;
+    private double flap = 0;
 
     public double getLeftDriveMotors() {
         return leftDriveMotors;
@@ -44,5 +45,13 @@ public class HardwareStates {
 
     public double getIntake() {
         return intake;
+    }
+
+    public void setFlap(double val) {
+        flap = val;
+    } 
+
+    public double getFlap() {
+        return flap;
     }
 }

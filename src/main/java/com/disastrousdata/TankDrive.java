@@ -46,6 +46,7 @@ public class TankDrive {
         setLeftDrive(states.getLeftDriveMotors());
         setRightDrive(states.getRightDriveMotors());
         setIntakePower(states.getIntake());
+        setArmPower(states.getFlap());
     }
 
     public void setLeftDrive(double s) {

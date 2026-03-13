@@ -134,6 +134,7 @@ public class Teleop {
 
         states.setLeftDriveMotors(leftDriveValue);
         states.setRightDriveMotors(rightDriveValue);
+        states.setFlap(drive.arm.get());
 
         // Apply values and dump debug info
         drive.update(states);  // PUT MOVEMENT CODE BEFORE THIS LINE

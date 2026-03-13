@@ -17,12 +17,13 @@ import com.disastrousdata.controllers.Joystick;
 //import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 public enum Keybind {
-    INTAKE_IN(Joystick.TRIGGER),
-    INTAKE_OUT(Joystick.SIDE_BUTTON),
+    // Front intake and shooter
+    INTAKE_IN(Joystick.SIDE_BUTTON),
+    INTAKE_OUT(Joystick.TRIGGER),
 
-    // Front flap
-    ARM_UP(Joystick.TOP_LEFT_5),
-    ARM_DOWN(Joystick.BOTTOM_LEFT_3);
+    // Intake fuel from "fuel tank" (polycarb box)
+    ARM_UP(Joystick.BASE_7),
+    ARM_DOWN(Joystick.BASE_9);
 
     public final int buttonId;
 
